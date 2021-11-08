@@ -1,0 +1,33 @@
+* encoding utf-8 *
+
+anota��es pygame
+
+pygame.init() -> inicia os m�dulos da biblioteca
+pygame.quit() -> encerra os m�dulos da biblioteca
+
+setar a resolu��o da tela:
+tela = pygame.display.set_mode((altura, largura))
+
+nomear janela:
+pygame.disply.set_caption(string)
+
+preencher a tela:
+tela.fill([0, 0, 0]) -> valores em RGB
+
+definir taxa de quadros:
+1� - Atribuir a uma variavel 'relogio'
+relogio = pygame.time.Clock()
+2� - No in�cio do loop principal
+relogio.tick(30)
+
+verficar se uma tecla espec�fica est� sendo pressionada:
+pygame.key.get_pressed()[K_(nome da tecla)]
+
+definir uma fonte:
+font = pygame.font.SysFont('arial', 120, False, False)
+
+dentro do loop while
+message = 'Intro Battle!'
+text_formatted = font.render(message, True, (205, 55, 0))
+DYSPLAY_SURFACE.blit(objeto, coordenadas(tupla))
+# meio da tela (largura / 2) - (largura_objeto / 2)
