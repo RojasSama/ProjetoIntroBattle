@@ -25,7 +25,7 @@ def main_menu():
     running = True
     while running:
 
-        screen.fill([0, 0, 0])
+        screen.fill([25, 25, 112])
         draw_text('Main Menu', font, 1, (255, 255, 255), screen, 40, 30)
         
         clock.tick(30)
