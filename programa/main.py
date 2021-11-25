@@ -20,20 +20,44 @@ def draw_text(text, font, type, color, surface, x, y):
     textRect = textObj.get_rect()
     textRect.topleft = (x, y)
     surface.blit(textObj, textRect)
+    
+class MainMenu:
+    def __init__(self):
+        running = True
+        while running:
+                
+            screen.fill([0, 0, 0])
+            draw_text('Main Menu', font, 1, (255, 255, 255), screen, 40, 30)
+            
+            clock.tick(30)
+            pg.display.update()
+            
+            for event in pg.event.get():
+                if event.type == QUIT:
+                    pg.quit()
+                    sys.exit()
 
-def main_menu():
-    running = True
-    while running:
+    @classmethod
+    def draw_text(self, text, font, type, color, surface, x, y):
+        textObj = font.render(text, type, color)
+        textRect = textObj.get_rect()
+        textRect.topleft = (x, y)
+        surface.blit(textObj, textRect)
+            
+# def main_menu():
+#     running = True
+#     while running:
 
-        screen.fill([25, 25, 112])
-        draw_text('Main Menu', font, 1, (255, 255, 255), screen, 40, 30)
+#         screen.fill([0, 0, 0])
+#         draw_text('Main Menu', font, 1, (255, 255, 255), screen, 40, 30)
         
-        clock.tick(30)
-        pg.display.update()
+#         clock.tick(30)
+#         pg.display.update()
         
-        for event in pg.event.get():
-            if event.type == QUIT:
-                pg.quit()
-                sys.exit()
+#         for event in pg.event.get():
+#             if event.type == QUIT:
+#                 pg.quit()
+#                 sys.exit()
 
-main_menu()
+menu1 = MainMenu()
+menu1.draw_text('Main Menu', font, 1, (255, 255, 255), screen, 40, 30)
