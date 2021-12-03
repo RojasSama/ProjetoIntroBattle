@@ -36,7 +36,7 @@ while running:  # loop principal
     
     menu1 = menu()
     clock.tick(30)  # taxa de quadros
-    pg.display.update()  # a tela sera atualizada a cada iteracao do loop
+    pg.display.flip()  # a tela sera atualizada a cada iteracao do loop
 
     for event in pg.event.get():  # tratamento de eventos
         if event.type == QUIT:
