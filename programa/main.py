@@ -7,8 +7,6 @@ import sys
 pg.init()  # iniciando os modulos da biblioteca
 pg.font.init()
 
-pg.mixer.music.set_volume(0.35)  # definindo o volume da musica de fundo
-
 def draw_text(text, font, type, color, surface, x, y):  # funcao que desenha um texto na tela a partir de alguns parametros
     textObj = font.render(text, type, color)  # rendenizando a fonte
     textRect = textObj.get_rect()
@@ -26,8 +24,9 @@ font = pg.font.SysFont(None, 50)  # declarando a fonte do sistema para ser usada
 
 clock = pg.time.Clock()
 
-bg_music = pg.mixer.music.load('musicas/BoxCat Games - Defeat.mp3')  # declarando a musica de fundo
-pg.mixer.music.play(-1)  # fazendo com que a musica fique em loop
+# bg_music = pg.mixer.music.load('musicas/BoxCat Games - Defeat.mp3')  # declarando a musica de fundo
+# pg.mixer.music.set_volume(0.35)  # definindo o volume da musica de fundo
+# pg.mixer.music.play(-1)  # fazendo com que a musica fique em loop
 
 
 running = True
