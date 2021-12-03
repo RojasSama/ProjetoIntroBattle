@@ -4,7 +4,7 @@ import pygame as pg
 from pygame.locals import *
 import sys
 
-pg.init()
+pg.init()  # iniciando os modulos da biblioteca
 pg.font.init()
 
 pg.mixer.music.set_volume(0.35)  # definindo o volume da musica de fundo
@@ -36,8 +36,8 @@ while running:  # loop principal
     screen.fill([0, 0, 0])
     
     menu1 = menu()
-    clock.tick(30)
-    pg.display.update()
+    clock.tick(30)  # taxa de quadros
+    pg.display.update()  # a tela sera atualizada a cada iteracao do loop
 
     for event in pg.event.get():  # tratamento de eventos
         if event.type == QUIT:
