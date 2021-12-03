@@ -2,15 +2,6 @@ import pygame
 
 
 class Character():
-    catalog = {
-        'bruxa': pygame.transform.scale2x(pygame.image.load('Personagens/bruxa.png')),
-        'cacadora': pygame.transform.scale2x(pygame.image.load('Personagens/cacadora.png')),
-        'caveira': pygame.transform.scale2x(pygame.image.load('Personagens/caveira.png')),
-        'clerigo': [pygame.transform.scale2x(pygame.image.load('Personagens/clerigo(com_sombra.png)')), pygame.transform.scale2x(pygame.image.load('Personagens/clerigo(sem_sombra.png)'))],
-        'mago': pygame.transform.scale2x(pygame.image.load('Personagens/mago(final).png')),
-        'paladino': pygame.transform.scale2x(pygame.image.load('Personagens/paladino.png')),
-        'vampiro': pygame.transform.scale2x(pygame.image.load('Personagens/vampiro.png')),
-    }
     '''
     Atributes:
         hp : character health points,
@@ -24,6 +15,16 @@ class Character():
         self.df = df
         self.spd = spd
         self.defense = defeat
+        
+        self.catalog = {
+            'bruxa': pygame.transform.scale2x(pygame.image.load('Personagens/bruxa.png')),
+            'cacadora': pygame.transform.scale2x(pygame.image.load('Personagens/cacadora.png')),
+            'caveira': pygame.transform.scale2x(pygame.image.load('Personagens/caveira.png')),
+            'clerigo': [pygame.transform.scale2x(pygame.image.load('Personagens/clerigo(com_sombra.png)')), pygame.transform.scale2x(pygame.image.load('Personagens/clerigo(sem_sombra.png)'))],
+            'mago': pygame.transform.scale2x(pygame.image.load('Personagens/mago(final).png')),
+            'paladino': pygame.transform.scale2x(pygame.image.load('Personagens/paladino.png')),
+            'vampiro': pygame.transform.scale2x(pygame.image.load('Personagens/vampiro.png'))
+        }
 
     def attack(self, inimigo):
         damage = (self.atk * 50) // 50 + (inimigo.df * 2)
