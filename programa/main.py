@@ -15,6 +15,8 @@ def draw_text(text, font, type, color, surface, x, y):  # funcao que desenha um 
     
 def menu():
     draw_text('Main Menu', font, 1, (255, 255, 255), screen, 40, 30)
+    draw_text('Press "Z" to play', font, 2, (120, 255, 120), screen, 40, 125)
+    draw_text('Press "escape" to exit', font, 2, (235, 25, 25), screen, 40, 160)
 
 screen_size = (1024, 768)  # resolucao da tela
 screen = pg.display.set_mode((screen_size[0], screen_size[1]))
@@ -35,6 +37,7 @@ while running:  # loop principal
     screen.fill([0, 0, 0])
     
     menu1 = menu()
+    
     clock.tick(30)  # taxa de quadros
     pg.display.flip()  # a tela sera atualizada a cada iteracao do loop
 
