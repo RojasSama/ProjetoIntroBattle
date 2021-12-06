@@ -1,15 +1,14 @@
-import pygame
-
+import pygame as pg
 
 class Character():
     catalog = {
-        'bruxa': pygame.transform.scale2x(pygame.image.load('Personagens/bruxa.png')),
-        'cacadora': pygame.transform.scale2x(pygame.image.load('Personagens/cacadora.png')),
-        'caveira': pygame.transform.scale2x(pygame.image.load('Personagens/caveira.png')),
-        'clerigo': pygame.transform.scale2x(pygame.image.load('Personagens/clerigo(sem_sombra).png')),
-        'mago': pygame.transform.scale2x(pygame.image.load('Personagens/mago(final).png')),
-        'paladino': pygame.transform.scale2x(pygame.image.load('Personagens/paladino.png')),
-        'vampiro': pygame.transform.scale2x(pygame.image.load('Personagens/vampiro.png'))
+        'mago': pg.transform.scale2x(pg.image.load('Personagens/mago(final).png')),
+        'bruxa': pg.transform.scale2x(pg.image.load('Personagens/bruxa.png')),
+        'vampiro': pg.transform.scale2x(pg.image.load('Personagens/vampiro.png')),
+        'caveira': pg.transform.scale2x(pg.image.load('Personagens/caveira.png')),
+        'clerigo': pg.transform.scale2x(pg.image.load('Personagens/clerigo(sem_sombra).png')),
+        'paladino': pg.transform.scale2x(pg.image.load('Personagens/paladino.png')),
+        'cacadora': pg.transform.scale2x(pg.image.load('Personagens/cacadora.png')),
     }
     '''    
     Atributes:
