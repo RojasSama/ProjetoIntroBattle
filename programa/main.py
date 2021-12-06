@@ -3,7 +3,6 @@
 import pygame as pg
 from pygame.locals import *
 import sys
-import pygame.mixer as pm
 
 from classes import Character
 
