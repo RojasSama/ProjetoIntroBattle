@@ -43,12 +43,8 @@ class Character():
 class Battle(Character):
     '''
     Atributes:
-        c1 : character 1,
         c2 : character 2,
         c3 : character 3,
-        e1 : enemy 1,
-        e2 : enemy 2,
-        e3 : enemy 3
     '''
     def __init__(self, c1, c2, c3, e1, e2, e3):
         Character.__init__(c1, c2, c3, e1, defeat=False)
