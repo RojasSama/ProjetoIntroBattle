@@ -30,7 +30,6 @@ class Game():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.running, self.playing = False, False
-                pygame.quit()
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_z:
