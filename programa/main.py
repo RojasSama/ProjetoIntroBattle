@@ -15,7 +15,12 @@ def draw_text(text, font, type, color, surface, x, y):  # funcao que desenha um 
     textRect.topleft = (x, y)  # definindo a posicao do texto na tela
     surface.blit(textObj, textRect)  # desenhando o texto escolhido
     
-def menu():
+def menu_screen():
+    x, y = 1024, 768
+    display_menu = pg.display.set_mode((x, y))
+    
+    
+    menu_running = True
     draw_text('Main Menu', font, 1, (255, 255, 255), screen, 40, 30)
     draw_text('Press "Z" to play', font, 2, (120, 255, 120), screen, 40, 125)
     draw_text('Press "escape" to exit', font, 2, (235, 25, 25), screen, 40, 160)  # possivel adicao
@@ -67,9 +72,9 @@ font = pg.font.SysFont(None, 50)  # declarando a fonte do sistema para ser usada
 
 clock = pg.time.Clock()
 
-bg_music = pm.mixer.music.load('musicas/BoxCat Games - Defeat.mp3')  # declarando a musica de fundo
-pm.mixer.music.set_volume(0.35)  # definindo o volume da musica de fundo
-pm.mixer.music.play(-1)  # fazendo com que a musica fique em loop
+# bg_music = pg.mixer.music.load('musicas/BoxCat Games - Defeat.mp3')  # declarando a musica de fundo
+# pg.mixer.music.set_volume(0.35)  # definindo o volume da musica de fundo
+# pg.mixer.music.play(-1)  # fazendo com que a musica fique em loop
 
 
 choice_char = False
@@ -77,7 +82,7 @@ running = True
 while running:  # loop principal
 
     screen.fill([0, 0, 0])
-    menu()
+    menu_screen()
 
     for event in pg.event.get():  # tratamento de eventos
         if event.type == QUIT:
