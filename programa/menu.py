@@ -1,12 +1,13 @@
-import pygame 
+import pygame as pg
+from classes import *
 
 class Menu():
     def __init__(self, game):
-        pygame.init()
+        pg.init()
         self.game = game
         self.mid_w, self.mid_h = self.game.DISPLAY_W // 2, self.game.DISPLAY_H // 2  # definindo o meio de cada eixo
         self.run_display = True
-        self.cursor_rect = pygame.Rect(0, 0, 40, 40)  # armazenando as coordenadas do retangulo do cursor
+        self.cursor_rect = pg.Rect(0, 0, 40, 40)  # armazenando as coordenadas do retangulo do cursor
         self.offset = - 100  # deslocamento do cursor
         # self.arrow = pygame.image.load('UI/introcomp_seta.png')
     
@@ -16,7 +17,7 @@ class Menu():
 
     def blit_screen(self):
         self.game.window.blit(self.game.display, (0, 0))  # instanciando o obj game para blitar na tela o display nas coordenadas (0, 0)
-        pygame.display.flip()
+        pg.display.flip()
         self.game.reset_keys()
 
 class MainMenu(Menu):
@@ -98,9 +99,6 @@ class CreditsMenu(Menu):
 
         Desenvolvimento do jogo:
         Luiz Rojas
-        Otavio Sales
-        Karla Sancio
-        Joao Gabriel de Barros Rocha
 
         Documentacao:
         Victor Aguiar Marques'''
@@ -113,5 +111,5 @@ class CreditsMenu(Menu):
                 self.game.curr_menu = self.game.main_menu
                 self.run_display = False
             self.game.display.fill(self.game.BLACK)
-            self.game.draw_text(self.credits, 25, self.game.DISPLAY_W // 2, self.game.DISPLAY_H // 2 - 20)
+            self.game.draw_text(self.credits, 10, self.game.DISPLAY_W // 2, self.game.DISPLAY_H // 2 - 20)
             self.blit_screen()
