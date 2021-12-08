@@ -8,11 +8,11 @@ class Menu():
         self.run_display = True
         self.cursor_rect = pygame.Rect(0, 0, 40, 40)  # armazenando as coordenadas do retangulo do cursor
         self.offset = - 100  # deslocamento do cursor
-        self.arrow = pygame.image.load('UI/introcomp_seta.png')
+        # self.arrow = pygame.image.load('UI/introcomp_seta.png')
     
     def draw_cursor(self):
-        pygame.transform.rotate(self.arrow, - 90)
-        self.game.window.blit(self.arrow, (self.cursor_rect.x, self.cursor_rect.y))
+        # pygame.transform.rotate(self.arrow, - 90)
+        self.game.draw_text('>', 25, self.cursor_rect.x, self.cursor_rect.y)
 
     def blit_screen(self):
         self.game.window.blit(self.game.display, (0, 0))  # instanciando o obj game para blitar na tela o display nas coordenadas (0, 0)
@@ -77,5 +77,39 @@ class MainMenu(Menu):
             elif self.state == 'Credits':
                 pass
             elif self.state == 'Exit':
-                pass
-            self.run_display = False 
+                self.game.running = False
+            self.run_display = False
+        
+class CreditsMenu(Menu):
+    def __init__(self, game):
+        Menu.__init__(self, game)
+        self.credits = f'''--- Creditos ---
+        Artes:
+        Augusto Moraes Alves
+        Bernardo Seibert
+        Geisson Venancio do Nascimento
+        Giulia Guimaraes
+        Kaique Taylor Gripa dos Santos
+        Kiara Pezzin Silva
+        Raquel Paulo Silva
+        Rhuan dos Santos
+
+        Desenvolvimento do jogo:
+        Luiz Rojas
+        Otavio Sales
+        Karla Sancio
+        Joao Gabriel de Barros Rocha
+
+        Documentacao:
+        Victor Aguiar Marques'''
+    
+    def display_menu(self):
+        self.run_display = True
+        while self.run_display:
+            self.game.check_events()
+            if self.game.z_KEY or self.game.x_KEY:
+                self.game.curr_menu = self.game.main_menu
+                self.run_display = False
+            self.game.display.fill(self.game.BLACK)
+            self.game.draw_text(self.credits, 25, self.game.DISPLAY_W // 2, self.game.DISPLAY_H // 2 - 20)
+            self.blit_screen()

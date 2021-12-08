@@ -1,6 +1,6 @@
 import pygame
 from pygame.locals import *
-from menu import MainMenu
+from menu import *
 
 
 class Game():
@@ -15,7 +15,10 @@ class Game():
         self.font_name = 'programa/FreePixel.ttf'  # fonte do jogo
         # self.font_name = pygame.font.get_default_font()
         self.BLACK, self.WHITE = (0, 0, 0), (255, 255, 255)
-        self.crr_menu = MainMenu(self)
+        self.main_menu = MainMenu(self)
+        self.credits = CreditsMenu(self)
+        self.crr_menu = self.main_menu
+
 
     def game_loop(self):  # loop principal
         clock = pygame.time.Clock()
