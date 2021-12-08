@@ -40,7 +40,7 @@ class MainMenu(Menu):
             self.blit_screen()
 
     def move_cursor(self):
-        if self.game.RIGTH_KEY:
+        if self.game.RIGHT_KEY:
             if self.state == 'Start':  # caso o cursor esteja estado 'start' e for pressionada a tecla 'down' 
                 self.cursor_rect.midtop = (self.creditsx + self.offset, self.creditsy)  # sera deslocado para a proxima opcao do menu
                 self.state = 'Credits'  # e reajusta o estado da posicao do cursor
