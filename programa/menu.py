@@ -68,7 +68,7 @@ class MainMenu(Menu):
     
     def check_input(self):
         self.move_cursor()
-        if self.game.START_KEY:
+        if self.game.z_KEY:
             if self.state == 'Start':
                 self.game.playing = True
             
