@@ -75,9 +75,11 @@ class MainMenu(Menu):
                 self.game.playing = True
             
             elif self.state == 'Credits':
-                pass
+                self.game.curr_menu = self.game.credits
+
             elif self.state == 'Exit':
-                self.game.running = False
+                self.game.running, self.game.playing = False, False
+
             self.run_display = False
         
 class CreditsMenu(Menu):
