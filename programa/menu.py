@@ -8,9 +8,11 @@ class Menu():
         self.run_display = True
         self.cursor_rect = pygame.Rect(0, 0, 40, 40)  # armazenando as coordenadas do retangulo do cursor
         self.offset = - 100  # deslocamento do cursor
+        self.arrow = pygame.image.load('UI/introcomp_seta.png')
     
     def draw_cursor(self):
-        self.game.draw_text('#', 15, self.cursor_rect.x, self.cursor_rect.y)
+        pygame.transform.rotate(self.arrow, - 90)
+        self.game.window.blit(self.arrow, (self.cursor_rect.x, self.cursor_rect.y))
 
     def blit_screen(self):
         self.game.window.blit(self.game.display, (0, 0))  # instanciando o obj game para blitar na tela o display nas coordenadas (0, 0)

@@ -11,8 +11,8 @@ class Game():
         self.DISPLAY_W, self.DISPLAY_H = 1024, 768  # dimensoes da tela 
         self.display = pygame.Surface((self.DISPLAY_W, self.DISPLAY_H))
         self.window = pygame.display.set_mode((self.DISPLAY_W, self.DISPLAY_H))
-        pygame.display.set_caption('Intro Battle')
-        self.font_name = 'FreePixel.ttf'
+        pygame.display.set_caption('Intro Battle')  # definindo nome da janela
+        self.font_name = 'programa/FreePixel.ttf'  # fonte do jogo
         # self.font_name = pygame.font.get_default_font()
         self.BLACK, self.WHITE = (0, 0, 0), (255, 255, 255)
         self.crr_menu = MainMenu(self)
