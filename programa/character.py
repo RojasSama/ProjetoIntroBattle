@@ -1,7 +1,7 @@
 import pygame as pg
 
 class Character():
-    '''    
+    '''
     Atributes:
         hp : character health points,
         atk : character attack points,
@@ -14,6 +14,8 @@ class Character():
         self.defense = 10
         self.speed = 2
         self.defeat = False
+        self.ui_bg = pg.image.load('UI/introcomp_menu.png')
+        self.shadow = pg.image.load('UI/introcomp_character.png')
         self.catalog = {  # sprites catalog
             'wizard': pg.transform.scale2x(pg.image.load('Personagens/mago(final).png')),
             'witch': pg.transform.scale2x(pg.image.load('Personagens/bruxa.png')),
@@ -23,7 +25,7 @@ class Character():
             'paladin': pg.transform.scale2x(pg.image.load('Personagens/paladino.png')),
             'hunter': pg.transform.scale2x(pg.image.load('Personagens/cacadora.png')),
         }
-        
+
     def attack_enemy(self, enemy):
         damage = (self.attack * 50) // 50 + (enemy.df * 2)
         enemy.hp += damage
@@ -99,24 +101,4 @@ class Hunter(Character):
         self.defense = 3
         self.speed = 5
         self.img = self.catalog['Hunter']
-
-class Battle(Character):
-    '''
-    Atributes:
-        c2 : character 2,
-        c3 : character 3,
-        ...
-        e1: enemy 1
-    '''
-    def __init__(self, c1, c2, c3, e1, e2, e3):
-        Character.__init__(c1, c2, c3, e1, defeat=False)
-        self.c1 = c1
-        self.c2 = c2
-        self.c3 = c3
-        self.e1 = e1
-        self.e2 = e2
-        self.e3 = e3
-    
-    def blit_characters(self):
-        pass
     

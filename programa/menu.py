@@ -1,5 +1,5 @@
 import pygame as pg
-from classes import *
+from character import *
 
 class Menu():
     def __init__(self, game):
@@ -82,7 +82,48 @@ class MainMenu(Menu):
                 self.game.running, self.game.playing = False, False
 
             self.run_display = False
-        
+
+class SelectMenu(Menu):
+    def __init__(self):
+        super().__init__(self)
+        self.char = Character()
+    
+    def draw_cursor(self):
+        self.imgx, self.imgy = 30, 8
+        img = pg.image.load('UI/introcomp_seta.png')
+        img_rect = img.get_rect()
+        img_rect.center = (self.imgx, self.imgy)
+        self.game.display.blit(self.char.arrow, img_rect)
+    
+    def display_menu(self):
+        self.run_display = True
+        if self.run_display:
+            self.game.check_events()
+            self.check_input()
+            self.game.display.fill(self.game.BLACK)
+
+            ################### displaying ui for characters ##############################
+            self.char.blit_character(12, 18, self.char.ui_bg, self.game.display)
+            self.char.blit_character(262, 18, self.char.ui_bg, self.game.display)
+            self.char.blit_character(512, 18, self.char.ui_bg, self.game.display)
+            self.char.blit_character(762, 18, self.char.ui_bg, self.game.display)
+            self.char.blit_character(125, 108, self.char.ui_bg, self.game.display)
+            self.char.blit_character(375, 108, self.char.ui_bg, self.game.display)
+            self.char.blit_character(625, 108, self.char.ui_bg, self.game.display)
+            # self.char.blit_character(875, 108, self.char.ui_bg, self.game.display)
+
+            ######################## displaying the characters ############################
+            self.char.blit_character(12, 40, self.char.catalog['wizard'], self.game.display)
+            self.char.blit_character(262, 40, self.char.catalog['witch'], self.game.display)
+            self.char.blit_character(512, 40, self.char.catalog['vampire'], self.game.display)
+            self.char.blit_character(762, 40, self.char.catalog['skeleton'], self.game.display)
+            self.char.blit_character(125, 40, self.char.catalog['cleric'], self.game.display)
+            self.char.blit_character(375, 40, self.char.catalog['paladin'], self.game.display)
+            self.char.blit_character(625, 40, self.char.catalog['hunter'], self.game.display)
+            # self.char.blit_character(875, 40, self.char.catalog['witch'], self.game.display)
+            self.draw_cursor()
+            self.blit_screen()
+
 class CreditsMenu(Menu):
     def __init__(self, game):
         Menu.__init__(self, game)
