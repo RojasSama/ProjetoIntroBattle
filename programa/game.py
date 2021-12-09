@@ -33,7 +33,7 @@ class Game():
             # self.selection.display_menu()
             self.crr_menu = self.selection
             pg.display.flip()  # atualiza o display a cada iteracao do loop
-            self.reset_keys()
+            self.reset_keys()  # reinicia as teclas para o valor padrao
     
     def check_events(self):
         for event in pg.event.get():

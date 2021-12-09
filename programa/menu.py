@@ -87,8 +87,9 @@ class SelectMenu(Menu):
     def __init__(self, game):
         Menu.__init__(self, game)
         self.char = Character()
-        self.state = {
-            'wizard': [12, 18], 'witch': [262, 18], 'vampire': [512, 40]
+        self.state = {  # coordenadas de cada personagem no menu de selecao
+            'wizard': [12, 18], 'witch': [262, 18], 'vampire': [512, 40], 'skeleton': [762, 18],
+            'cleric': [125, 108], 'paladin': [375, 108], 'hunter': [625, 108]
         }
     
     def draw_cursor(self):
