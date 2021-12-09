@@ -14,8 +14,8 @@ class Game():
         pg.display.set_caption('Intro Battle')  # definindo nome da janela
         self.font_name = 'programa/FreePixel.ttf'  # fonte do jogo
         # self.font_name = pygame.font.get_default_font()
-        self.selection = SelectMenu()
         self.BLACK, self.WHITE = (0, 0, 0), (255, 255, 255)
+        self.selection = SelectMenu(self)  # <- apresentando problemas
         self.main_menu = MainMenu(self)
         self.credits = CreditsMenu(self)
         self.crr_menu = self.main_menu
@@ -30,7 +30,8 @@ class Game():
             self.display.fill(self.BLACK)  # preenchendo a tela com a cor preta
             self.draw_text('Select your characters', 45, self.DISPLAY_W // 2, self.DISPLAY_H // 2)  # desenhando na tela usando os parametros largura e altura da tela
             self.window.blit(self.display, (0, 0))  # 'blitando' o display na janela 'window'
-            self.selection.display_menu()
+            # self.selection.display_menu()
+            self.crr_menu = self.selection
             pg.display.flip()  # atualiza o display a cada iteracao do loop
             self.reset_keys()
     

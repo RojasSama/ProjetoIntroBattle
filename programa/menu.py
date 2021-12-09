@@ -24,7 +24,7 @@ class MainMenu(Menu):
     def __init__(self, game):
         Menu.__init__(self, game)
         self.state = 'Start'  # onde o cursor inicia no menu principal
-        self.startx, self.starty = self.mid_w, self.mid_h + 30  # definindo eixos do start e afins
+        self.startx, self.starty = self.mid_w, self.mid_h + 30  # definindo eixos da opcao start e afins
         self.creditsx, self.creditsy = self.mid_w, self.mid_h + 60
         self.exitx, self.exity = self.mid_w, self.mid_h + 90
         self.cursor_rect.midtop = (self.startx + self.offset, self.starty)
@@ -84,9 +84,12 @@ class MainMenu(Menu):
             self.run_display = False
 
 class SelectMenu(Menu):
-    def __init__(self):
-        super().__init__(self)
+    def __init__(self, game):
+        Menu.__init__(self, game)
         self.char = Character()
+        self.state = {
+            'wizard': [12, 18], 'witch': [262, 18], 'vampire': [512, 40]
+        }
     
     def draw_cursor(self):
         self.imgx, self.imgy = 30, 8
@@ -99,7 +102,7 @@ class SelectMenu(Menu):
         self.run_display = True
         if self.run_display:
             self.game.check_events()
-            self.check_input()
+            # self.check_input()
             self.game.display.fill(self.game.BLACK)
 
             ################### displaying ui for characters ##############################
@@ -110,19 +113,24 @@ class SelectMenu(Menu):
             self.char.blit_character(125, 108, self.char.ui_bg, self.game.display)
             self.char.blit_character(375, 108, self.char.ui_bg, self.game.display)
             self.char.blit_character(625, 108, self.char.ui_bg, self.game.display)
-            # self.char.blit_character(875, 108, self.char.ui_bg, self.game.display)
 
             ######################## displaying the characters ############################
-            self.char.blit_character(12, 40, self.char.catalog['wizard'], self.game.display)
-            self.char.blit_character(262, 40, self.char.catalog['witch'], self.game.display)
-            self.char.blit_character(512, 40, self.char.catalog['vampire'], self.game.display)
-            self.char.blit_character(762, 40, self.char.catalog['skeleton'], self.game.display)
-            self.char.blit_character(125, 40, self.char.catalog['cleric'], self.game.display)
-            self.char.blit_character(375, 40, self.char.catalog['paladin'], self.game.display)
-            self.char.blit_character(625, 40, self.char.catalog['hunter'], self.game.display)
-            # self.char.blit_character(875, 40, self.char.catalog['witch'], self.game.display)
-            self.draw_cursor()
+            self.char.blit_character(12, 18, self.char.catalog['wizard'], self.game.display)
+            self.char.blit_character(262, 18, self.char.catalog['witch'], self.game.display)
+            self.char.blit_character(512, 18, self.char.catalog['vampire'], self.game.display)
+            self.char.blit_character(762, 18, self.char.catalog['skeleton'], self.game.display)
+            self.char.blit_character(125, 108, self.char.catalog['cleric'], self.game.display)
+            self.char.blit_character(375, 108, self.char.catalog['paladin'], self.game.display)
+            self.char.blit_character(625, 108, self.char.catalog['hunter'], self.game.display)
+
+            # self.draw_cursor()
             self.blit_screen()
+
+    def check_input(self):
+        if self.game.z_KEY:
+            if self.state == self.state['wizard']:
+                pass
+        
 
 class CreditsMenu(Menu):
     def __init__(self, game):
