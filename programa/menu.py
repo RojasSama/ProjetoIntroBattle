@@ -7,6 +7,7 @@ class Menu():
         self.game = game
         self.mid_w, self.mid_h = self.game.DISPLAY_W // 2, self.game.DISPLAY_H // 2  # definindo o meio de cada eixo
         self.run_display = True
+        self.cursor_img = pg.transform.scale(pg.image.load('UI/introcomp_seta(resized).png'), (200, 200))
         self.cursor_rect = pg.Rect(0, 0, 40, 40)  # armazenando as coordenadas do retangulo do cursor
         self.offset = - 100  # deslocamento do cursor
         # self.arrow = pygame.image.load('UI/introcomp_seta.png')
@@ -95,7 +96,7 @@ class SelectMenu(Menu):
     
     def draw_cursor(self):
         self.imgx, self.imgy = 30, 8
-        img = pg.image.load('UI/introcomp_seta.png')
+        img = pg.image.load('UI/introcomp_seta(resized).png')
         img_rect = img.get_rect()
         img_rect.center = (self.imgx, self.imgy)
         self.game.display.blit(self.char.arrow, img_rect)
