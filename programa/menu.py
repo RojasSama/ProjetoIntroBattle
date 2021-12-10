@@ -86,6 +86,7 @@ class MainMenu(Menu):
 class SelectMenu(Menu):
     def __init__(self, game):
         Menu.__init__(self, game)
+        self.bg = pg.transform.scale(pg.image.load('Background/cenario(menu).png'), (1024, 768))
         self.char = Character()
         self.state = {  # coordenadas de cada personagem no menu de selecao
             'wizard': [12, 18], 'witch': [262, 18], 'vampire': [512, 40], 'skeleton': [762, 18],
@@ -105,6 +106,8 @@ class SelectMenu(Menu):
             self.game.check_events()
             # self.check_input()
             self.game.display.fill(self.game.BLACK)
+
+            self.game.display.blit(self.bg, (0,0))
 
             ################### displaying ui for characters ##############################
             self.char.blit_character(12, 18, self.char.ui_bg, self.game.display)
