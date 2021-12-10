@@ -119,13 +119,13 @@ class SelectMenu(Menu):
             self.char.blit_character(625, 108, self.char.ui_bg, self.game.display)
 
             ######################## displaying the characters ############################
-            self.char.blit_character(12, 18, self.char.catalog['wizard'], self.game.display)
-            self.char.blit_character(262, 18, self.char.catalog['witch'], self.game.display)
-            self.char.blit_character(512, 18, self.char.catalog['vampire'], self.game.display)
-            self.char.blit_character(762, 18, self.char.catalog['skeleton'], self.game.display)
-            self.char.blit_character(125, 108, self.char.catalog['cleric'], self.game.display)
-            self.char.blit_character(375, 108, self.char.catalog['paladin'], self.game.display)
-            self.char.blit_character(625, 108, self.char.catalog['hunter'], self.game.display)
+            self.char.blit_character(self.state['wizard'][0], self.state['wizard'][1], self.char.catalog['wizard'], self.game.display)
+            self.char.blit_character(self.state['witch'][0], self.state['witch'][1], self.char.catalog['witch'], self.game.display)
+            self.char.blit_character(self.state['vampire'][0], self.state['vampire'][1], self.char.catalog['vampire'], self.game.display)
+            self.char.blit_character(self.state['skeleton'][0], self.state['skeleton'][1], self.char.catalog['skeleton'], self.game.display)
+            self.char.blit_character(self.state['cleric'][0], self.state['cleric'][1], self.char.catalog['cleric'], self.game.display)
+            self.char.blit_character(self.state['paladin'][0], self.state['paladin'][1], self.char.catalog['paladin'], self.game.display)
+            self.char.blit_character(self.state['hunter'][0], self.state['hunter'][1], self.char.catalog['hunter'], self.game.display)
 
             # self.draw_cursor()
             self.blit_screen()
