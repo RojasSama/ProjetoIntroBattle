@@ -90,7 +90,7 @@ class SelectMenu(Menu):
         self.bg = pg.transform.scale(pg.image.load('Background/cenario(menu).png'), (1024, 768))
         self.char = Character()
         self.state = {  # coordenadas de cada personagem no menu de selecao
-            'wizard': [12, 18], 'witch': [262, 18], 'vampire': [512, 40], 'skeleton': [762, 18],
+            'wizard': [105, 130], 'witch': [335, 130], 'vampire': [565, 130], 'skeleton': [790, 130],
             'cleric': [125, 108], 'paladin': [375, 108], 'hunter': [625, 108]
         }
     
@@ -111,13 +111,13 @@ class SelectMenu(Menu):
             self.game.display.blit(self.bg, (0,0))
 
             ################### displaying ui for characters ##############################
-            self.char.blit_character(12, 18, self.char.ui_bg, self.game.display)
-            self.char.blit_character(262, 18, self.char.ui_bg, self.game.display)
-            self.char.blit_character(512, 18, self.char.ui_bg, self.game.display)
-            self.char.blit_character(762, 18, self.char.ui_bg, self.game.display)
-            self.char.blit_character(125, 108, self.char.ui_bg, self.game.display)
-            self.char.blit_character(375, 108, self.char.ui_bg, self.game.display)
-            self.char.blit_character(625, 108, self.char.ui_bg, self.game.display)
+            self.char.blit_character(85, 105, self.char.ui_bg, self.game.display)
+            self.char.blit_character(310, 105, self.char.ui_bg, self.game.display)
+            self.char.blit_character(535, 105, self.char.ui_bg, self.game.display)
+            self.char.blit_character(760, 105, self.char.ui_bg, self.game.display)
+            self.char.blit_character(150, 450, self.char.ui_bg, self.game.display)
+            self.char.blit_character(370, 450, self.char.ui_bg, self.game.display)
+            self.char.blit_character(590, 450, self.char.ui_bg, self.game.display)
 
             ######################## displaying the characters ############################
             self.char.blit_character(self.state['wizard'][0], self.state['wizard'][1], self.char.catalog['wizard'], self.game.display)
