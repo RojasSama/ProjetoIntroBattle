@@ -15,7 +15,7 @@ class Game():
         self.font_name = 'programa/FreePixel.ttf'  # fonte do jogo
         # self.font_name = pygame.font.get_default_font()
         self.BLACK, self.WHITE = (0, 0, 0), (255, 255, 255)
-        self.selection = SelectMenu(self)  # <- apresentando problemas
+        self.selection = SelectMenu(self)
         self.main_menu = MainMenu(self)
         self.credits = CreditsMenu(self)
         self.crr_menu = self.main_menu
@@ -27,6 +27,7 @@ class Game():
             self.check_events()
             if self.x_KEY:
                 self.playing = False
+                self.crr_menu = self.main_menu
             self.display.fill(self.BLACK)  # preenchendo a tela com a cor preta
             self.window.blit(self.display, (0, 0))  # 'blitando' o display na janela 'window'
             self.selection.display_menu()

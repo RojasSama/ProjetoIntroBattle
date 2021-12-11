@@ -7,7 +7,7 @@ class Menu():
         self.game = game
         self.mid_w, self.mid_h = self.game.DISPLAY_W // 2, self.game.DISPLAY_H // 2  # definindo o meio de cada eixo
         self.run_display = True
-        self.cursor_img = pg.transform.scale(pg.image.load('UI/introcomp_seta(resized).png'), (200, 200))
+        self.cursor_img = pg.transform.scale(pg.image.load('UI/introcomp_seta(resized).png'), (18, 18))
         self.cursor_rect = pg.Rect(0, 0, 40, 40)  # armazenando as coordenadas do retangulo do cursor
         self.offset = - 100  # deslocamento do cursor
         # self.arrow = pygame.image.load('UI/introcomp_seta.png')
@@ -87,6 +87,7 @@ class MainMenu(Menu):
 class SelectMenu(Menu):
     def __init__(self, game):
         Menu.__init__(self, game)
+        self.state = 'wizard'
         self.bg = pg.transform.scale(pg.image.load('Background/cenario(menu).png'), (1024, 768))
         self.char = Character()
         self.state = {  # coordenadas de cada personagem no menu de selecao
@@ -95,11 +96,18 @@ class SelectMenu(Menu):
         }
     
     def draw_cursor(self):
-        self.imgx, self.imgy = 30, 8
-        img = pg.image.load('UI/introcomp_seta(resized).png')
-        img_rect = img.get_rect()
+        self.imgx, self.imgy = 155, 80
+        self.curr_img = pg.transform.scale(pg.image.load('UI/introcomp_seta(resized).png'), (35, 35))
+        img_rect = self.curr_img.get_rect()
         img_rect.center = (self.imgx, self.imgy)
-        self.game.display.blit(self.char.arrow, img_rect)
+        self.game.display.blit(self.curr_img, img_rect)
+    
+    def move_cursor(self):
+        self.state = 'wizard'
+        if self.game.z_key:
+            if self.state == 'wizard':
+                pass
+
     
     def display_menu(self):
         self.run_display = True
@@ -110,6 +118,7 @@ class SelectMenu(Menu):
 
             self.game.display.blit(self.bg, (0,0))
             self.game.draw_text('Select your characters', 50, self.game.DISPLAY_W // 2, self.game.DISPLAY_H // 2 - 20)
+            self.draw_cursor()
 
             ################### displaying ui for characters ##############################
             self.char.blit_character(85, 105, self.char.ui_bg, self.game.display)
@@ -136,6 +145,9 @@ class SelectMenu(Menu):
         if self.game.z_KEY:
             if self.state == self.state['wizard']:
                 pass
+    
+    def select_characters(self):
+        pass
         
 
 class CreditsMenu(Menu):
