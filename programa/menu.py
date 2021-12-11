@@ -14,7 +14,7 @@ class Menu():
     
     def draw_cursor(self):
         # pygame.transform.rotate(self.arrow, - 90)
-        self.game.draw_text('>', 25, self.cursor_rect.x, self.cursor_rect.y)
+        self.game.draw_text('>', 25, self.cursor_rect.x, self.cursor_rect.y, self.game.WHITE)
 
     def blit_screen(self):
         self.game.window.blit(self.game.display, (0, 0))  # instanciando o obj game para blitar na tela o display nas coordenadas (0, 0)
@@ -36,10 +36,10 @@ class MainMenu(Menu):
             self.game.check_events()
             self.check_input()
             self.game.display.fill(self.game.BLACK)
-            self.game.draw_text('Main Menu', 35, self.game.DISPLAY_W // 2, self.game.DISPLAY_H // 2 - 20)
-            self.game.draw_text('Start', 35, self.startx, self.starty)
-            self.game.draw_text('Credits', 35, self.creditsx, self.creditsy)
-            self.game.draw_text('Exit', 35, self.exitx, self.exity)
+            self.game.draw_text('Main Menu', 35, self.game.DISPLAY_W // 2, self.game.DISPLAY_H // 2 - 20, self.game.WHITE)
+            self.game.draw_text('Start', 35, self.startx, self.starty, self.game.WHITE)
+            self.game.draw_text('Credits', 35, self.creditsx, self.creditsy, self.game.WHITE)
+            self.game.draw_text('Exit', 35, self.exitx, self.exity, self.game.WHITE)
             self.draw_cursor()
             self.blit_screen()
 
@@ -95,15 +95,15 @@ class SelectMenu(Menu):
             'cleric': [245, 475], 'paladin': [465, 475], 'hunter': [685, 475]
         }
     
-    def draw_cursor(self):
-        self.imgx, self.imgy = 155, 80
+    def draw_cursor(self, state):
+        self.imgx, self.imgy = self.state[state][0] + 50, self.state[state][1] - 50  # as coordenadas do cursor sao baseadas nas dos personagens
         self.curr_img = pg.transform.scale(pg.image.load('UI/introcomp_seta(resized).png'), (35, 35))
         img_rect = self.curr_img.get_rect()
         img_rect.center = (self.imgx, self.imgy)
         self.game.display.blit(self.curr_img, img_rect)
     
     def move_cursor(self):
-        self.state = 'wizard'
+        self.state = 'wizard'  # posicao inicial do cursor na tela de selecao
         if self.game.z_key:
             if self.state == 'wizard':
                 pass
@@ -117,10 +117,9 @@ class SelectMenu(Menu):
             self.game.display.fill(self.game.BLACK)
 
             self.game.display.blit(self.bg, (0,0))
-            self.game.draw_text('Select your characters', 50, self.game.DISPLAY_W // 2, self.game.DISPLAY_H // 2 - 20)
-            self.draw_cursor()
+            self.game.draw_text('Select your characters', 50, self.game.DISPLAY_W // 2, self.game.DISPLAY_H // 2 - 20, self.game.WHITE)
 
-            ################### displaying ui for characters ##############################
+            ################### displaying ui for characters #####################
             self.char.blit_character(85, 105, self.char.ui_bg, self.game.display)
             self.char.blit_character(310, 105, self.char.ui_bg, self.game.display)
             self.char.blit_character(535, 105, self.char.ui_bg, self.game.display)
@@ -129,7 +128,7 @@ class SelectMenu(Menu):
             self.char.blit_character(430, 450, self.char.ui_bg, self.game.display)
             self.char.blit_character(650, 450, self.char.ui_bg, self.game.display)
 
-            ######################## displaying the characters ############################
+            ########################################## displaying the characters ##########################################################
             self.char.blit_character(self.state['wizard'][0], self.state['wizard'][1], self.char.catalog['wizard'], self.game.display)
             self.char.blit_character(self.state['witch'][0], self.state['witch'][1], self.char.catalog['witch'], self.game.display)
             self.char.blit_character(self.state['vampire'][0], self.state['vampire'][1], self.char.catalog['vampire'], self.game.display)
@@ -138,7 +137,15 @@ class SelectMenu(Menu):
             self.char.blit_character(self.state['paladin'][0], self.state['paladin'][1], self.char.catalog['paladin'], self.game.display)
             self.char.blit_character(self.state['hunter'][0], self.state['hunter'][1], self.char.catalog['hunter'], self.game.display)
 
-            # self.draw_cursor()
+            self.game.draw_text('Wizard', 20, 155, 230, self.game.BLACK)
+            self.game.draw_text('Witch', 20, 380, 230, self.game.BLACK)
+            self.game.draw_text('Vampire', 20, 605, 230, self.game.BLACK)
+            self.game.draw_text('Skeleton', 20, 835, 230, self.game.BLACK)
+            self.game.draw_text('Cleric', 20, 275, 575, self.game.BLACK)
+            self.game.draw_text('Paladin', 20, 510, 575, self.game.BLACK)
+            self.game.draw_text('Hunter', 20, 725, 575, self.game.BLACK)
+
+            self.draw_cursor('wizard')
             self.blit_screen()
 
     def check_input(self):
@@ -147,6 +154,7 @@ class SelectMenu(Menu):
                 pass
     
     def select_characters(self):
+        self.team = []
         pass
         
 
