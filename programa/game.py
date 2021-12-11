@@ -25,7 +25,7 @@ class Game():
         while self.playing:
             clock.tick(30)  # definindo a taxa de quadros
             self.check_events()
-            if self.z_KEY:
+            if self.x_KEY:
                 self.playing = False
             self.display.fill(self.BLACK)  # preenchendo a tela com a cor preta
             self.window.blit(self.display, (0, 0))  # 'blitando' o display na janela 'window'
