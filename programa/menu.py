@@ -91,7 +91,7 @@ class SelectMenu(Menu):
         self.char = Character()
         self.state = {  # coordenadas de cada personagem no menu de selecao
             'wizard': [105, 130], 'witch': [335, 130], 'vampire': [565, 130], 'skeleton': [790, 130],
-            'cleric': [125, 108], 'paladin': [375, 108], 'hunter': [625, 108]
+            'cleric': [245, 475], 'paladin': [465, 475], 'hunter': [685, 475]
         }
     
     def draw_cursor(self):
@@ -109,15 +109,16 @@ class SelectMenu(Menu):
             self.game.display.fill(self.game.BLACK)
 
             self.game.display.blit(self.bg, (0,0))
+            self.game.draw_text('Select your characters', 50, self.game.DISPLAY_W // 2, self.game.DISPLAY_H // 2 - 20)
 
             ################### displaying ui for characters ##############################
             self.char.blit_character(85, 105, self.char.ui_bg, self.game.display)
             self.char.blit_character(310, 105, self.char.ui_bg, self.game.display)
             self.char.blit_character(535, 105, self.char.ui_bg, self.game.display)
             self.char.blit_character(760, 105, self.char.ui_bg, self.game.display)
-            self.char.blit_character(150, 450, self.char.ui_bg, self.game.display)
-            self.char.blit_character(370, 450, self.char.ui_bg, self.game.display)
-            self.char.blit_character(590, 450, self.char.ui_bg, self.game.display)
+            self.char.blit_character(210, 450, self.char.ui_bg, self.game.display)
+            self.char.blit_character(430, 450, self.char.ui_bg, self.game.display)
+            self.char.blit_character(650, 450, self.char.ui_bg, self.game.display)
 
             ######################## displaying the characters ############################
             self.char.blit_character(self.state['wizard'][0], self.state['wizard'][1], self.char.catalog['wizard'], self.game.display)
