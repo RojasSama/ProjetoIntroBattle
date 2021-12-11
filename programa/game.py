@@ -27,10 +27,10 @@ class Game():
             self.check_events()
             if self.x_KEY:
                 self.playing = False
-                self.crr_menu = self.main_menu
             self.display.fill(self.BLACK)  # preenchendo a tela com a cor preta
             self.window.blit(self.display, (0, 0))  # 'blitando' o display na janela 'window'
-            self.selection.display_menu()
+            self.credits.display_menu()  # -> apresentando problemas
+            # self.selection.display_menu()
             pg.display.flip()  # atualiza o display a cada iteracao do loop
             self.reset_keys()  # reinicia as teclas para o valor padrao
     

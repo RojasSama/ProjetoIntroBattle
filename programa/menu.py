@@ -161,30 +161,39 @@ class SelectMenu(Menu):
 class CreditsMenu(Menu):
     def __init__(self, game):
         Menu.__init__(self, game)
-        self.credits = f'''--- Creditos ---
-        Artes:
-        Augusto Moraes Alves
-        Bernardo Seibert
-        Geisson Venancio do Nascimento
-        Giulia Guimaraes
-        Kaique Taylor Gripa dos Santos
-        Kiara Pezzin Silva
-        Raquel Paulo Silva
-        Rhuan dos Santos
-
-        Desenvolvimento do jogo:
-        Luiz Rojas
-
-        Documentacao:
-        Victor Aguiar Marques'''
+        self.credits = ['--- Creditos ---', 
+                        'Artes:',
+                        'Augusto Moraes Alves',
+                        'Bernardo Seibert',
+                        'Geisson Venancio do Nascimento',
+                        'Giulia Guimaraes',
+                        'Kaique Taylor Gripa dos Santos',
+                        'Kiara Pezzin Silva',
+                        'Raquel Paulo Silva',
+                        'Rhuan dos Santos',
+                        '',
+                        'Desenvolvimento do jogo:',
+                        'Luiz Rojas',
+                        'Octavio Sales',
+                        'Karla Sancio',
+                        'Joao Gabriel de Barros Rocha',
+                        '',
+                        'Documentacao:',
+                        'Victor Aguiar Marques']
     
     def display_menu(self):
         self.run_display = True
+        x, y = self.game.DISPLAY_W // 2, self.game.DISPLAY_H // 2 - 5
         while self.run_display:
             self.game.check_events()
+
             if self.game.z_KEY or self.game.x_KEY:
                 self.game.curr_menu = self.game.main_menu
                 self.run_display = False
+
             self.game.display.fill(self.game.BLACK)
-            self.game.draw_text(self.credits, 10, self.game.DISPLAY_W // 2, self.game.DISPLAY_H // 2 - 20)
+
+            for text in self.credits:
+                self.game.draw_text(text, 20, x, y, self.game.WHITE)
+                y += 25
             self.blit_screen()
