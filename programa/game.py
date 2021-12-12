@@ -15,7 +15,7 @@ class Game():
         self.font_name = 'programa/FreePixel.ttf'  # fonte do jogo
         # self.font_name = pygame.font.get_default_font()
         self.BLACK, self.WHITE = (0, 0, 0), (255, 255, 255)
-        self.selection = SelectMenu(self)  # <- apresentando problemas
+        self.selection = SelectMenu(self)
         self.main_menu = MainMenu(self)
         self.credits = CreditsMenu(self)
         self.crr_menu = self.main_menu
@@ -25,13 +25,12 @@ class Game():
         while self.playing:
             clock.tick(30)  # definindo a taxa de quadros
             self.check_events()
-            if self.z_KEY:
+            if self.x_KEY:
                 self.playing = False
             self.display.fill(self.BLACK)  # preenchendo a tela com a cor preta
-            self.draw_text('Select your characters', 45, self.DISPLAY_W // 2, self.DISPLAY_H // 2)  # desenhando na tela usando os parametros largura e altura da tela
             self.window.blit(self.display, (0, 0))  # 'blitando' o display na janela 'window'
-            # self.selection.display_menu()
-            self.crr_menu = self.selection
+            # self.credits.display_menu()  # -> apresentando problemas
+            self.selection.display_menu()
             pg.display.flip()  # atualiza o display a cada iteracao do loop
             self.reset_keys()  # reinicia as teclas para o valor padrao
     
@@ -54,9 +53,9 @@ class Game():
     def reset_keys(self):
         self.z_KEY, self.x_KEY, self.RIGHT_KEY, self.LEFT_KEY = False, False, False, False
 
-    def draw_text(self, text, size, x, y):
+    def draw_text(self, text, size, x, y, color):
         font = pg.font.Font(self.font_name, size)
-        text_surface = font.render(text, True, self.WHITE)
+        text_surface = font.render(text, True, color)
         text_rect = text_surface.get_rect()
         text_rect.center = (x, y)
         self.display.blit(text_surface, text_rect)

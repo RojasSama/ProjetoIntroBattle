@@ -14,16 +14,16 @@ class Character():
         self.defense = 10
         self.speed = 2
         self.defeat = False
-        self.ui_bg = pg.image.load('UI/introcomp_menu.png')
+        self.ui_bg = pg.transform.scale(pg.image.load('UI/introcomp_menu(resized).png'), (150, 150))
         self.shadow = pg.image.load('UI/introcomp_character.png')
-        self.catalog = {  # sprites catalog
-            'wizard': pg.transform.scale2x(pg.image.load('Personagens/mago(final).png')),
-            'witch': pg.transform.scale2x(pg.image.load('Personagens/bruxa.png')),
-            'vampire': pg.transform.scale2x(pg.image.load('Personagens/vampiro.png')),
-            'skeleton': pg.transform.scale2x(pg.image.load('Personagens/caveira.png')),
-            'cleric': pg.transform.scale2x(pg.image.load('Personagens/clerigo(sem_sombra).png')),
-            'paladin': pg.transform.scale2x(pg.image.load('Personagens/paladino.png')),
-            'hunter': pg.transform.scale2x(pg.image.load('Personagens/cacadora.png')),
+        self.catalog = {  # catalogo de sprites dos personagens
+            'wizard': pg.transform.scale(pg.image.load('Personagens/mago(final).png'), (90, 90)),
+            'witch': pg.transform.scale(pg.image.load('Personagens/bruxa.png'), (90, 90)),
+            'vampire': pg.transform.scale(pg.image.load('Personagens/vampiro.png'), (90, 90)),
+            'skeleton': pg.transform.scale(pg.image.load('Personagens/caveira.png'), (90, 90)),
+            'cleric': pg.transform.scale(pg.image.load('Personagens/clerigo(sem_sombra).png'), (90, 90)),
+            'paladin': pg.transform.scale(pg.image.load('Personagens/paladino.png'), (90, 90)),
+            'hunter': pg.transform.scale(pg.image.load('Personagens/cacadora.png'), (90, 90)),
         }
 
     def attack_enemy(self, enemy):
@@ -35,10 +35,10 @@ class Character():
 
     def verifies_defeat(self):
         if self.health == 0:
-            self.defense = True
+            self.defeat = True
     
-    def blit_character(self, x, y, img, screen):
-        screen.blit(img, (x, y))
+    def blit_character(self, x, y, screen):
+        screen.blit(self.img, (x, y))
         
 class Wizard(Character):
     def __init__(self):
