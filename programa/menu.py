@@ -119,14 +119,14 @@ class SelectMenu(Menu):
             self.game.display.blit(self.bg, (0,0))
             self.game.draw_text('Select your characters', 50, self.game.DISPLAY_W // 2, self.game.DISPLAY_H // 2 - 20, self.game.WHITE)
 
-            ################### displaying ui for characters #####################
-            self.char.blit_character(85, 105, self.char.ui_bg, self.game.display)
-            self.char.blit_character(310, 105, self.char.ui_bg, self.game.display)
-            self.char.blit_character(535, 105, self.char.ui_bg, self.game.display)
-            self.char.blit_character(760, 105, self.char.ui_bg, self.game.display)
-            self.char.blit_character(210, 450, self.char.ui_bg, self.game.display)
-            self.char.blit_character(430, 450, self.char.ui_bg, self.game.display)
-            self.char.blit_character(650, 450, self.char.ui_bg, self.game.display)
+            ######## displaying ui for the characters #########
+            self.game.display.blit(self.char.ui_bg, (85, 105))
+            self.game.display.blit(self.char.ui_bg, (310, 105))
+            self.game.display.blit(self.char.ui_bg, (535, 105))
+            self.game.display.blit(self.char.ui_bg, (760, 105))
+            self.game.display.blit(self.char.ui_bg, (210, 450))
+            self.game.display.blit(self.char.ui_bg, (430, 450))
+            self.game.display.blit(self.char.ui_bg, (650, 450))
 
             ########################################## displaying the characters ##########################################################
             self.char.blit_character(self.state['wizard'][0], self.state['wizard'][1], self.char.catalog['wizard'], self.game.display)

@@ -37,8 +37,8 @@ class Character():
         if self.health == 0:
             self.defeat = True
     
-    def blit_character(self, x, y, screen):
-        screen.blit(self.img, (x, y))
+    def blit_character(self, x, y, img, screen):
+        screen.blit(img, (x, y))
         
 class Wizard(Character):
     def __init__(self):
