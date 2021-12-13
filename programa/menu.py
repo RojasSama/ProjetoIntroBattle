@@ -180,28 +180,27 @@ class SelectMenu(Menu):
     def check_input(self):
         self.move_cursor()
         if self.game.z_KEY:
-            if len(self.tem) < 3:
-                if self.position == 'Priest':
-                    self.select_team(Priest)
-                
-                elif self.position == 'Paladin':
-                    self.select_team(Paladin)
+            if self.position == 'Priest':
+                self.select_team(Priest)
+            
+            elif self.position == 'Paladin':
+                self.select_team(Paladin)
 
-                elif self.position == 'Hunter':
-                    self.select_team(Hunter)
+            elif self.position == 'Hunter':
+                self.select_team(Hunter)
 
-                elif self.position == 'Witch':
-                    self.select_team(Witch)
+            elif self.position == 'Witch':
+                self.select_team(Witch)
 
-                elif self.position == 'Rogue':
-                    self.select_team(Rogue)
+            elif self.position == 'Rogue':
+                self.select_team(Rogue)
 
         if self.game.x_KEY:
             self.game.playing = False
     
     def select_team(self, character: object):
         self.team = []
-        while self.choosing:
+        while (self.choosing) and (len(self.team < 3)):
             self.team.append(character)
         
 
