@@ -45,7 +45,7 @@ class MainMenu(Menu):
 
     def move_cursor(self):
         if self.game.RIGHT_KEY:
-            if self.state == 'Start':  # caso o cursor esteja estado 'start' e for pressionada a tecla 'down' 
+            if self.state == 'Start':  # caso o cursor esteja no estado 'start', e for pressionada, a tecla 'down' 
                 self.cursor_rect.midtop = (self.creditsx + self.offset, self.creditsy)  # sera deslocado para a proxima opcao do menu
                 self.state = 'Credits'  # e reajusta o estado da posicao do cursor
 
@@ -87,75 +87,121 @@ class MainMenu(Menu):
 class SelectMenu(Menu):
     def __init__(self, game):
         Menu.__init__(self, game)
-        self.state = 'wizard'
+        self.position = 'Priest'  # posicao inicial do cursor na tela de selecao
         self.bg = pg.transform.scale(pg.image.load('Background/cenario(menu).png'), (1024, 768))
+        self.choosing = True
         self.char = Character()
         self.state = {  # coordenadas de cada personagem no menu de selecao
-            'wizard': [105, 130], 'witch': [335, 130], 'vampire': [565, 130], 'skeleton': [790, 130],
-            'cleric': [245, 475], 'paladin': [465, 475], 'hunter': [685, 475]
+            'Priest': [245, 130], 'paladin': [465, 130], 'hunter': [685, 130],
+            'wizard': [335, 475], 'Rogue': [565, 475],
         }
     
     def draw_cursor(self, state):
         self.imgx, self.imgy = self.state[state][0] + 50, self.state[state][1] - 50  # as coordenadas do cursor sao baseadas nas dos personagens
-        self.curr_img = pg.transform.scale(pg.image.load('UI/introcomp_seta(resized).png'), (35, 35))
+        self.curr_img = pg.transform.scale(pg.image.load('UI/introcomp_seta(resized).png'), (35, 35))  # imagem do cursor
         img_rect = self.curr_img.get_rect()
-        img_rect.center = (self.imgx, self.imgy)
+        img_rect.center = (self.imgx, self.imgy)  # coordenadas do cursor
         self.game.display.blit(self.curr_img, img_rect)
     
     def move_cursor(self):
-        self.state = 'wizard'  # posicao inicial do cursor na tela de selecao
-        if self.game.z_key:
-            if self.state == 'wizard':
-                pass
+        if self.game.RIGHT_KEY:
+            if self.position == 'Priest':
+                self.position = 'Paladin'
+                self.draw_cursor('Paladin')
 
-    
+            elif self.position == 'Paladin':
+                self.position = 'Hunter'
+                self.draw_cursor('Hunter')
+
+            elif self.position == 'Hunter':
+                self.position = 'Witch'
+                self.draw_cursor('Witch')
+
+            elif self.position == 'Witch':
+                self.position = 'Rogue'
+                self.draw_cursor('Rogue')
+            
+            elif self.position == 'Rogue':
+                self.position = 'Priest'
+                self.draw_cursor('Priest')
+
+        elif self.game.LEFT_KEY:
+            if self.position == 'Priest':
+                self.position = 'Rogue'
+                self.draw_cursor(self.position)
+
+            elif self.position == 'Rogue':
+                self.position = 'Witch'
+                self.draw_cursor(self.position)
+            
+            elif self.position == 'Witch':
+                self.position = 'Hunter'
+                self.draw_cursor(self.position)
+            
+            elif self.position == 'Hunter':
+                self.position = 'Paladin'
+                self.draw_cursor(self.position)
+            
+            elif self.position == 'Paladin':
+                self.position = 'Priest'
+                self.draw_cursor(self.position)
+
     def display_menu(self):
         self.run_display = True
         if self.run_display:
             self.game.check_events()
-            # self.check_input()
             self.game.display.fill(self.game.BLACK)
 
             self.game.display.blit(self.bg, (0,0))
             self.game.draw_text('Select your characters', 50, self.game.DISPLAY_W // 2, self.game.DISPLAY_H // 2 - 20, self.game.WHITE)
 
-            ################### displaying ui for characters #####################
-            self.char.blit_character(85, 105, self.char.ui_bg, self.game.display)
-            self.char.blit_character(310, 105, self.char.ui_bg, self.game.display)
-            self.char.blit_character(535, 105, self.char.ui_bg, self.game.display)
-            self.char.blit_character(760, 105, self.char.ui_bg, self.game.display)
-            self.char.blit_character(210, 450, self.char.ui_bg, self.game.display)
-            self.char.blit_character(430, 450, self.char.ui_bg, self.game.display)
-            self.char.blit_character(650, 450, self.char.ui_bg, self.game.display)
+            ######## displaying ui for the characters #########
+            self.game.display.blit(self.char.ui_bg, (210, 105))
+            self.game.display.blit(self.char.ui_bg, (430, 105))
+            self.game.display.blit(self.char.ui_bg, (650, 105))
+            self.game.display.blit(self.char.ui_bg, (310, 450))
+            self.game.display.blit(self.char.ui_bg, (535, 450))
 
             ########################################## displaying the characters ##########################################################
-            self.char.blit_character(self.state['wizard'][0], self.state['wizard'][1], self.char.catalog['wizard'], self.game.display)
-            self.char.blit_character(self.state['witch'][0], self.state['witch'][1], self.char.catalog['witch'], self.game.display)
-            self.char.blit_character(self.state['vampire'][0], self.state['vampire'][1], self.char.catalog['vampire'], self.game.display)
-            self.char.blit_character(self.state['skeleton'][0], self.state['skeleton'][1], self.char.catalog['skeleton'], self.game.display)
-            self.char.blit_character(self.state['cleric'][0], self.state['cleric'][1], self.char.catalog['cleric'], self.game.display)
+            self.char.blit_character(self.state['Priest'][0], self.state['Priest'][1], self.char.catalog['Priest'], self.game.display)
             self.char.blit_character(self.state['paladin'][0], self.state['paladin'][1], self.char.catalog['paladin'], self.game.display)
             self.char.blit_character(self.state['hunter'][0], self.state['hunter'][1], self.char.catalog['hunter'], self.game.display)
+            self.char.blit_character(self.state['wizard'][0], self.state['wizard'][1], self.char.catalog['wizard'], self.game.display)
+            self.char.blit_character(self.state['Rogue'][0], self.state['Rogue'][1], self.char.catalog['Rogue'], self.game.display)
 
-            self.game.draw_text('Wizard', 20, 155, 230, self.game.BLACK)
-            self.game.draw_text('Witch', 20, 380, 230, self.game.BLACK)
-            self.game.draw_text('Vampire', 20, 605, 230, self.game.BLACK)
-            self.game.draw_text('Skeleton', 20, 835, 230, self.game.BLACK)
-            self.game.draw_text('Cleric', 20, 275, 575, self.game.BLACK)
-            self.game.draw_text('Paladin', 20, 510, 575, self.game.BLACK)
-            self.game.draw_text('Hunter', 20, 725, 575, self.game.BLACK)
+            self.game.draw_text('Priest', 20, 275, 230, self.game.BLACK)
+            self.game.draw_text('Paladin', 20, 510, 230, self.game.BLACK)
+            self.game.draw_text('Hunter', 20, 725, 230, self.game.BLACK)
+            self.game.draw_text('Wizard', 20, 385, 575, self.game.BLACK)
+            self.game.draw_text('Rogue', 20, 605, 575, self.game.BLACK)
 
-            self.draw_cursor('wizard')
             self.blit_screen()
 
     def check_input(self):
+        self.move_cursor()
         if self.game.z_KEY:
-            if self.state == self.state['wizard']:
-                pass
+            if self.position == 'Priest':
+                self.select_team(Priest)
+            
+            elif self.position == 'Paladin':
+                self.select_team(Paladin)
+
+            elif self.position == 'Hunter':
+                self.select_team(Hunter)
+
+            elif self.position == 'Witch':
+                self.select_team(Witch)
+
+            elif self.position == 'Rogue':
+                self.select_team(Rogue)
+
+        if self.game.x_KEY:
+            self.game.playing = False
     
-    def select_characters(self):
+    def select_team(self, character: object):
         self.team = []
-        pass
+        while (self.choosing) and (len(self.team < 3)):
+            self.team.append(character)
         
 
 class CreditsMenu(Menu):
@@ -174,6 +220,8 @@ class CreditsMenu(Menu):
                         '',
                         'Desenvolvimento do jogo:',
                         'Luiz Rojas',
+                        'Andrei',
+                        'Joao Paulo'
                         'Octavio Sales',
                         'Karla Sancio',
                         'Joao Gabriel de Barros Rocha',
