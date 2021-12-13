@@ -1,4 +1,5 @@
 import pygame as pg
+from pygame.constants import K_RIGHT, KEYDOWN, KEYUP
 from character import *
 
 class Menu():
@@ -85,18 +86,18 @@ class MainMenu(Menu):
 class SelectMenu(Menu):
     def __init__(self, game):
         Menu.__init__(self, game)
-        self.position = 'Priest'  # posicao inicial do cursor na tela de selecao
+        self.position = 'priest'  # posicao inicial do cursor na tela de selecao
         self.bg = pg.transform.scale(pg.image.load('Background/cenario(menu).png'), (1024, 768))
         self.choosing = True
         self.team = []
         self.char = Character()
         self.state = {  # coordenadas de cada personagem no menu de selecao
-            'Priest': [245, 130], 'paladin': [465, 130], 'hunter': [685, 130],
-            'wizard': [335, 475], 'Rogue': [565, 475],
+            'priest': [245, 130], 'paladin': [465, 130], 'hunter': [685, 130],
+            'wizard': [335, 475], 'rogue': [565, 475],
         }
     
-    def draw_cursor(self, state):
-        self.imgx, self.imgy = self.state[state][0] + 50, self.state[state][1] - 50  # as coordenadas do cursor sao baseadas nas dos personagens
+    def draw_cursor(self, position):
+        self.imgx, self.imgy = self.state[position][0] + 50, self.state[position][1] - 50  # as coordenadas do cursor sao baseadas nas dos personagens
         self.curr_img = pg.transform.scale(pg.image.load('UI/introcomp_seta(resized).png'), (35, 35))  # imagem do cursor
         img_rect = self.curr_img.get_rect()
         img_rect.center = (self.imgx, self.imgy)  # coordenadas do cursor
@@ -104,45 +105,45 @@ class SelectMenu(Menu):
     
     def move_cursor(self):
         if self.game.RIGHT_KEY:  # caso o jogador pressione a tecla 'seta para direita' verifique a posicao do cursor
-            if self.position == 'Priest':  # o cursor recebe uma nova posicao a cada movimentacao do cursor
-                self.position = 'Paladin'
-                self.draw_cursor('Paladin')  # metodo desenhar cursor
+            if self.position == 'priest':  # o cursor recebe uma nova posicao a cada movimentacao do cursor
+                self.position = 'paladin'
+                self.draw_cursor(self.position)  # metodo desenhar cursor
 
-            elif self.position == 'Paladin':
-                self.position = 'Hunter'
-                self.draw_cursor('Hunter')
+            elif self.position == 'paladin':
+                self.position = 'hunter'
+                self.draw_cursor(self.position)
 
-            elif self.position == 'Hunter':
-                self.position = 'Witch'
-                self.draw_cursor('Witch')
+            elif self.position == 'hunter':
+                self.position = 'wizard'
+                self.draw_cursor(self.position)
 
-            elif self.position == 'Witch':
-                self.position = 'Rogue'
-                self.draw_cursor('Rogue')
+            elif self.position == 'wizard':
+                self.position = 'rogue'
+                self.draw_cursor(self.position)
             
-            elif self.position == 'Rogue':
-                self.position = 'Priest'
-                self.draw_cursor('Priest')
+            elif self.position == 'rogue':
+                self.position = 'priest'
+                self.draw_cursor(self.position)
 
         elif self.game.LEFT_KEY:
-            if self.position == 'Priest':
-                self.position = 'Rogue'
+            if self.position == 'priest':
+                self.position = 'rogue'
                 self.draw_cursor(self.position)
 
-            elif self.position == 'Rogue':
-                self.position = 'Witch'
+            elif self.position == 'rogue':
+                self.position = 'wizard'
                 self.draw_cursor(self.position)
             
-            elif self.position == 'Witch':
-                self.position = 'Hunter'
+            elif self.position == 'wizard':
+                self.position = 'hunter'
                 self.draw_cursor(self.position)
             
-            elif self.position == 'Hunter':
-                self.position = 'Paladin'
+            elif self.position == 'hunter':
+                self.position = 'paladin'
                 self.draw_cursor(self.position)
             
-            elif self.position == 'Paladin':
-                self.position = 'Priest'
+            elif self.position == 'paladin':
+                self.position = 'priest'
                 self.draw_cursor(self.position)
 
     def display_menu(self):
@@ -162,11 +163,11 @@ class SelectMenu(Menu):
             self.game.display.blit(self.char.ui_bg, (535, 450))
 
             ########################################## displaying the characters ##########################################################
-            self.char.blit_character(self.state['Priest'][0], self.state['Priest'][1], self.char.catalog['Priest'], self.game.display)
+            self.char.blit_character(self.state['priest'][0], self.state['priest'][1], self.char.catalog['priest'], self.game.display)
             self.char.blit_character(self.state['paladin'][0], self.state['paladin'][1], self.char.catalog['paladin'], self.game.display)
             self.char.blit_character(self.state['hunter'][0], self.state['hunter'][1], self.char.catalog['hunter'], self.game.display)
             self.char.blit_character(self.state['wizard'][0], self.state['wizard'][1], self.char.catalog['wizard'], self.game.display)
-            self.char.blit_character(self.state['Rogue'][0], self.state['Rogue'][1], self.char.catalog['Rogue'], self.game.display)
+            self.char.blit_character(self.state['rogue'][0], self.state['rogue'][1], self.char.catalog['rogue'], self.game.display)
 
             self.game.draw_text('Priest', 20, 275, 230, self.game.BLACK)
             self.game.draw_text('Paladin', 20, 510, 230, self.game.BLACK)
@@ -174,6 +175,8 @@ class SelectMenu(Menu):
             self.game.draw_text('Wizard', 20, 385, 575, self.game.BLACK)
             self.game.draw_text('Rogue', 20, 605, 575, self.game.BLACK)
 
+            self.draw_cursor(self.position)
+            self.move_cursor()
             self.blit_screen()
 
     def check_input(self):
@@ -198,10 +201,10 @@ class SelectMenu(Menu):
             self.game.playing = False
     
     def select_team(self, character: object):
-        while (self.choosing) and (len(self.team < 3)):  # enquanto o jogador estiver escolhendo o time e a lista de personagens for menor que 3
-            self.team.append(character)
-        self.choosing = False
-        
+        if character not in self.team:
+            while (self.choosing) and (len(self.team < 3)):  # enquanto o jogador estiver escolhendo o time e a lista de personagens for menor que 3
+                self.team.append(character)
+            self.choosing = False
 
 class CreditsMenu(Menu):
     def __init__(self, game):
