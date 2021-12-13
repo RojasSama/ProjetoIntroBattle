@@ -149,7 +149,7 @@ class SelectMenu(Menu):
     def display_menu(self):
         self.run_display = True
         if self.run_display:
-            self.game.check_events()
+            self.check_input()
             self.game.display.fill(self.game.BLACK)
 
             self.game.display.blit(self.bg, (0,0))
@@ -176,34 +176,37 @@ class SelectMenu(Menu):
             self.game.draw_text('Rogue', 20, 605, 575, self.game.BLACK)
 
             self.draw_cursor(self.position)
-            self.move_cursor()
             self.blit_screen()
 
     def check_input(self):
         self.move_cursor()
         if self.game.z_KEY:
-            if self.position == 'Priest':
+            if self.position == 'priest':
                 self.select_team(Priest)
             
-            elif self.position == 'Paladin':
+            elif self.position == 'paladin':
                 self.select_team(Paladin)
 
-            elif self.position == 'Hunter':
+            elif self.position == 'hunter':
                 self.select_team(Hunter)
 
-            elif self.position == 'Witch':
+            elif self.position == 'wizard':
                 self.select_team(Witch)
 
-            elif self.position == 'Rogue':
+            elif self.position == 'rogue':
                 self.select_team(Rogue)
 
         if self.game.x_KEY:
             self.game.playing = False
+            self.choosing = False
+            self.team = []
     
     def select_team(self, character: object):
-        if character not in self.team:
-            while (self.choosing) and (len(self.team < 3)):  # enquanto o jogador estiver escolhendo o time e a lista de personagens for menor que 3
+        if not (character in self.team):
+            while (self.choosing) and (len(self.team) < 3):  # enquanto o jogador estiver escolhendo o time e a lista de personagens for menor que 3
                 self.team.append(character)
+                print(self.team)
+
             self.choosing = False
 
 class CreditsMenu(Menu):
