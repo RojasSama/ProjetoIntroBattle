@@ -21,7 +21,7 @@ class Character():
             'witch': pg.transform.scale(pg.image.load('Personagens/bruxa.png'), (90, 90)),
             'vampire': pg.transform.scale(pg.image.load('Personagens/vampiro.png'), (90, 90)),
             'skeleton': pg.transform.scale(pg.image.load('Personagens/caveira.png'), (90, 90)),
-            'cleric': pg.transform.scale(pg.image.load('Personagens/clerigo(sem_sombra).png'), (90, 90)),
+            'Priest': pg.transform.scale(pg.image.load('Personagens/clerigo(sem_sombra).png'), (90, 90)),
             'paladin': pg.transform.scale(pg.image.load('Personagens/paladino.png'), (90, 90)),
             'hunter': pg.transform.scale(pg.image.load('Personagens/cacadora.png'), (90, 90)),
         }

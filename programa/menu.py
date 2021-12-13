@@ -91,8 +91,8 @@ class SelectMenu(Menu):
         self.bg = pg.transform.scale(pg.image.load('Background/cenario(menu).png'), (1024, 768))
         self.char = Character()
         self.state = {  # coordenadas de cada personagem no menu de selecao
-            'wizard': [105, 130], 'witch': [335, 130], 'vampire': [565, 130], 'skeleton': [790, 130],
-            'cleric': [245, 475], 'paladin': [465, 475], 'hunter': [685, 475]
+            'Priest': [245, 130], 'paladin': [465, 130], 'hunter': [685, 130],
+            'wizard': [335, 475], 'vampire': [565, 475],
         }
     
     def draw_cursor(self, state):
@@ -120,30 +120,30 @@ class SelectMenu(Menu):
             self.game.draw_text('Select your characters', 50, self.game.DISPLAY_W // 2, self.game.DISPLAY_H // 2 - 20, self.game.WHITE)
 
             ######## displaying ui for the characters #########
-            self.game.display.blit(self.char.ui_bg, (85, 105))
-            self.game.display.blit(self.char.ui_bg, (310, 105))
-            self.game.display.blit(self.char.ui_bg, (535, 105))
-            self.game.display.blit(self.char.ui_bg, (760, 105))
-            self.game.display.blit(self.char.ui_bg, (210, 450))
-            self.game.display.blit(self.char.ui_bg, (430, 450))
-            self.game.display.blit(self.char.ui_bg, (650, 450))
+            # self.game.display.blit(self.char.ui_bg, (85, 105))  -> removido
+            self.game.display.blit(self.char.ui_bg, (210, 105))
+            self.game.display.blit(self.char.ui_bg, (430, 105))
+            self.game.display.blit(self.char.ui_bg, (650, 105))
+            # self.game.display.blit(self.char.ui_bg, (760, 105))  -> removido
+            self.game.display.blit(self.char.ui_bg, (310, 450))
+            self.game.display.blit(self.char.ui_bg, (535, 450))
 
             ########################################## displaying the characters ##########################################################
             self.char.blit_character(self.state['wizard'][0], self.state['wizard'][1], self.char.catalog['wizard'], self.game.display)
-            self.char.blit_character(self.state['witch'][0], self.state['witch'][1], self.char.catalog['witch'], self.game.display)
+            # self.char.blit_character(self.state['witch'][0], self.state['witch'][1], self.char.catalog['witch'], self.game.display)  -> removido
             self.char.blit_character(self.state['vampire'][0], self.state['vampire'][1], self.char.catalog['vampire'], self.game.display)
-            self.char.blit_character(self.state['skeleton'][0], self.state['skeleton'][1], self.char.catalog['skeleton'], self.game.display)
-            self.char.blit_character(self.state['cleric'][0], self.state['cleric'][1], self.char.catalog['cleric'], self.game.display)
+            # self.char.blit_character(self.state['skeleton'][0], self.state['skeleton'][1], self.char.catalog['skeleton'], self.game.display)  -> removido
+            self.char.blit_character(self.state['Priest'][0], self.state['Priest'][1], self.char.catalog['Priest'], self.game.display)
             self.char.blit_character(self.state['paladin'][0], self.state['paladin'][1], self.char.catalog['paladin'], self.game.display)
             self.char.blit_character(self.state['hunter'][0], self.state['hunter'][1], self.char.catalog['hunter'], self.game.display)
 
-            self.game.draw_text('Wizard', 20, 155, 230, self.game.BLACK)
-            self.game.draw_text('Witch', 20, 380, 230, self.game.BLACK)
-            self.game.draw_text('Vampire', 20, 605, 230, self.game.BLACK)
-            self.game.draw_text('Skeleton', 20, 835, 230, self.game.BLACK)
-            self.game.draw_text('Cleric', 20, 275, 575, self.game.BLACK)
-            self.game.draw_text('Paladin', 20, 510, 575, self.game.BLACK)
-            self.game.draw_text('Hunter', 20, 725, 575, self.game.BLACK)
+            # self.game.draw_text('Witch', 20, 380, 230, self.game.BLACK)  -> removido
+            # self.game.draw_text('Skeleton', 20, 835, 230, self.game.BLACK)  -> removido
+            self.game.draw_text('Priest', 20, 275, 230, self.game.BLACK)
+            self.game.draw_text('Paladin', 20, 510, 230, self.game.BLACK)
+            self.game.draw_text('Wizard', 20, 385, 575, self.game.BLACK)
+            self.game.draw_text('Vampire', 20, 605, 575, self.game.BLACK)
+            self.game.draw_text('Hunter', 20, 725, 230, self.game.BLACK)
 
             self.draw_cursor('wizard')
             self.blit_screen()

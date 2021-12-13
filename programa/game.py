@@ -41,9 +41,9 @@ class Game():
                 self.crr_menu.run_display = False
 
             if event.type == pg.KEYDOWN:
-                if event.key == pg.K_RETURN:
+                if event.key == pg.K_z:
                     self.z_KEY = True
-                if event.key == pg.K_BACKSPACE:
+                if event.key == pg.K_x:
                     self.x_KEY = True
                 if event.key == pg.K_RIGHT:
                     self.RIGHT_KEY = True
