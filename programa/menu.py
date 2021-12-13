@@ -88,6 +88,7 @@ class SelectMenu(Menu):
         self.position = 'Priest'  # posicao inicial do cursor na tela de selecao
         self.bg = pg.transform.scale(pg.image.load('Background/cenario(menu).png'), (1024, 768))
         self.choosing = True
+        self.team = []
         self.char = Character()
         self.state = {  # coordenadas de cada personagem no menu de selecao
             'Priest': [245, 130], 'paladin': [465, 130], 'hunter': [685, 130],
@@ -197,9 +198,9 @@ class SelectMenu(Menu):
             self.game.playing = False
     
     def select_team(self, character: object):
-        self.team = []
         while (self.choosing) and (len(self.team < 3)):  # enquanto o jogador estiver escolhendo o time e a lista de personagens for menor que 3
             self.team.append(character)
+        self.choosing = False
         
 
 class CreditsMenu(Menu):

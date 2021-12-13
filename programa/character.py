@@ -39,7 +39,7 @@ class Character():
     
     def blit_character(self, x, y, img, screen):
         screen.blit(img, (x, y))
-        
+
 class Wizard(Character):
     def __init__(self):
         super().__init__(self)
