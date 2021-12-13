@@ -7,13 +7,12 @@ class Menu():
         self.game = game
         self.mid_w, self.mid_h = self.game.DISPLAY_W // 2, self.game.DISPLAY_H // 2  # definindo o meio de cada eixo
         self.run_display = True
+        self.cursor_img = pg.transform.scale(pg.image.load('UI/introcomp_seta(resized).png'), (18, 18))
         self.cursor_rect = pg.Rect(0, 0, 40, 40)  # armazenando as coordenadas do retangulo do cursor
         self.offset = - 100  # deslocamento do cursor
-        # self.arrow = pygame.image.load('UI/introcomp_seta.png')
     
     def draw_cursor(self):
-        # pygame.transform.rotate(self.arrow, - 90)
-        self.game.draw_text('>', 25, self.cursor_rect.x, self.cursor_rect.y)
+        self.game.draw_text('>', 25, self.cursor_rect.x, self.cursor_rect.y, self.game.WHITE)
 
     def blit_screen(self):
         self.game.window.blit(self.game.display, (0, 0))  # instanciando o obj game para blitar na tela o display nas coordenadas (0, 0)
@@ -35,16 +34,16 @@ class MainMenu(Menu):
             self.game.check_events()
             self.check_input()
             self.game.display.fill(self.game.BLACK)
-            self.game.draw_text('Main Menu', 35, self.game.DISPLAY_W // 2, self.game.DISPLAY_H // 2 - 20)
-            self.game.draw_text('Start', 35, self.startx, self.starty)
-            self.game.draw_text('Credits', 35, self.creditsx, self.creditsy)
-            self.game.draw_text('Exit', 35, self.exitx, self.exity)
+            self.game.draw_text('Main Menu', 35, self.game.DISPLAY_W // 2, self.game.DISPLAY_H // 2 - 20, self.game.WHITE)
+            self.game.draw_text('Start', 35, self.startx, self.starty, self.game.WHITE)
+            self.game.draw_text('Credits', 35, self.creditsx, self.creditsy, self.game.WHITE)
+            self.game.draw_text('Exit', 35, self.exitx, self.exity, self.game.WHITE)
             self.draw_cursor()
             self.blit_screen()
 
     def move_cursor(self):
         if self.game.RIGHT_KEY:
-            if self.state == 'Start':  # caso o cursor esteja estado 'start' e for pressionada a tecla 'down' 
+            if self.state == 'Start':  # caso o cursor esteja no estado 'start', e for pressionada, a tecla 'down' 
                 self.cursor_rect.midtop = (self.creditsx + self.offset, self.creditsy)  # sera deslocado para a proxima opcao do menu
                 self.state = 'Credits'  # e reajusta o estado da posicao do cursor
 
@@ -86,80 +85,161 @@ class MainMenu(Menu):
 class SelectMenu(Menu):
     def __init__(self, game):
         Menu.__init__(self, game)
+        self.position = 'Priest'  # posicao inicial do cursor na tela de selecao
+        self.bg = pg.transform.scale(pg.image.load('Background/cenario(menu).png'), (1024, 768))
+        self.choosing = True
         self.char = Character()
         self.state = {  # coordenadas de cada personagem no menu de selecao
-            'wizard': [12, 18], 'witch': [262, 18], 'vampire': [512, 40], 'skeleton': [762, 18],
-            'cleric': [125, 108], 'paladin': [375, 108], 'hunter': [625, 108]
+            'Priest': [245, 130], 'paladin': [465, 130], 'hunter': [685, 130],
+            'wizard': [335, 475], 'Rogue': [565, 475],
         }
     
-    def draw_cursor(self):
-        self.imgx, self.imgy = 30, 8
-        img = pg.image.load('UI/introcomp_seta.png')
-        img_rect = img.get_rect()
-        img_rect.center = (self.imgx, self.imgy)
-        self.game.display.blit(self.char.arrow, img_rect)
+    def draw_cursor(self, state):
+        self.imgx, self.imgy = self.state[state][0] + 50, self.state[state][1] - 50  # as coordenadas do cursor sao baseadas nas dos personagens
+        self.curr_img = pg.transform.scale(pg.image.load('UI/introcomp_seta(resized).png'), (35, 35))  # imagem do cursor
+        img_rect = self.curr_img.get_rect()
+        img_rect.center = (self.imgx, self.imgy)  # coordenadas do cursor
+        self.game.display.blit(self.curr_img, img_rect)
     
+    def move_cursor(self):
+        if self.game.RIGHT_KEY:  # caso o jogador pressione a tecla 'seta para direita' verifique a posicao do cursor
+            if self.position == 'Priest':  # o cursor recebe uma nova posicao a cada movimentacao do cursor
+                self.position = 'Paladin'
+                self.draw_cursor('Paladin')  # metodo desenhar cursor
+
+            elif self.position == 'Paladin':
+                self.position = 'Hunter'
+                self.draw_cursor('Hunter')
+
+            elif self.position == 'Hunter':
+                self.position = 'Witch'
+                self.draw_cursor('Witch')
+
+            elif self.position == 'Witch':
+                self.position = 'Rogue'
+                self.draw_cursor('Rogue')
+            
+            elif self.position == 'Rogue':
+                self.position = 'Priest'
+                self.draw_cursor('Priest')
+
+        elif self.game.LEFT_KEY:
+            if self.position == 'Priest':
+                self.position = 'Rogue'
+                self.draw_cursor(self.position)
+
+            elif self.position == 'Rogue':
+                self.position = 'Witch'
+                self.draw_cursor(self.position)
+            
+            elif self.position == 'Witch':
+                self.position = 'Hunter'
+                self.draw_cursor(self.position)
+            
+            elif self.position == 'Hunter':
+                self.position = 'Paladin'
+                self.draw_cursor(self.position)
+            
+            elif self.position == 'Paladin':
+                self.position = 'Priest'
+                self.draw_cursor(self.position)
+
     def display_menu(self):
         self.run_display = True
         if self.run_display:
             self.game.check_events()
-            # self.check_input()
             self.game.display.fill(self.game.BLACK)
 
-            ################### displaying ui for characters ##############################
-            self.char.blit_character(12, 18, self.char.ui_bg, self.game.display)
-            self.char.blit_character(262, 18, self.char.ui_bg, self.game.display)
-            self.char.blit_character(512, 18, self.char.ui_bg, self.game.display)
-            self.char.blit_character(762, 18, self.char.ui_bg, self.game.display)
-            self.char.blit_character(125, 108, self.char.ui_bg, self.game.display)
-            self.char.blit_character(375, 108, self.char.ui_bg, self.game.display)
-            self.char.blit_character(625, 108, self.char.ui_bg, self.game.display)
+            self.game.display.blit(self.bg, (0,0))
+            self.game.draw_text('Select your characters', 50, self.game.DISPLAY_W // 2, self.game.DISPLAY_H // 2 - 20, self.game.WHITE)
 
-            ######################## displaying the characters ############################
-            self.char.blit_character(12, 18, self.char.catalog['wizard'], self.game.display)
-            self.char.blit_character(262, 18, self.char.catalog['witch'], self.game.display)
-            self.char.blit_character(512, 18, self.char.catalog['vampire'], self.game.display)
-            self.char.blit_character(762, 18, self.char.catalog['skeleton'], self.game.display)
-            self.char.blit_character(125, 108, self.char.catalog['cleric'], self.game.display)
-            self.char.blit_character(375, 108, self.char.catalog['paladin'], self.game.display)
-            self.char.blit_character(625, 108, self.char.catalog['hunter'], self.game.display)
+            ######## displaying ui for the characters #########
+            self.game.display.blit(self.char.ui_bg, (210, 105))
+            self.game.display.blit(self.char.ui_bg, (430, 105))
+            self.game.display.blit(self.char.ui_bg, (650, 105))
+            self.game.display.blit(self.char.ui_bg, (310, 450))
+            self.game.display.blit(self.char.ui_bg, (535, 450))
 
-            # self.draw_cursor()
+            ########################################## displaying the characters ##########################################################
+            self.char.blit_character(self.state['Priest'][0], self.state['Priest'][1], self.char.catalog['Priest'], self.game.display)
+            self.char.blit_character(self.state['paladin'][0], self.state['paladin'][1], self.char.catalog['paladin'], self.game.display)
+            self.char.blit_character(self.state['hunter'][0], self.state['hunter'][1], self.char.catalog['hunter'], self.game.display)
+            self.char.blit_character(self.state['wizard'][0], self.state['wizard'][1], self.char.catalog['wizard'], self.game.display)
+            self.char.blit_character(self.state['Rogue'][0], self.state['Rogue'][1], self.char.catalog['Rogue'], self.game.display)
+
+            self.game.draw_text('Priest', 20, 275, 230, self.game.BLACK)
+            self.game.draw_text('Paladin', 20, 510, 230, self.game.BLACK)
+            self.game.draw_text('Hunter', 20, 725, 230, self.game.BLACK)
+            self.game.draw_text('Wizard', 20, 385, 575, self.game.BLACK)
+            self.game.draw_text('Rogue', 20, 605, 575, self.game.BLACK)
+
             self.blit_screen()
 
     def check_input(self):
+        self.move_cursor()
         if self.game.z_KEY:
-            if self.state == self.state['wizard']:
-                pass
+            if self.position == 'Priest':
+                self.select_team(Priest)
+            
+            elif self.position == 'Paladin':
+                self.select_team(Paladin)
+
+            elif self.position == 'Hunter':
+                self.select_team(Hunter)
+
+            elif self.position == 'Witch':
+                self.select_team(Witch)
+
+            elif self.position == 'Rogue':
+                self.select_team(Rogue)
+
+        if self.game.x_KEY:
+            self.game.playing = False
+    
+    def select_team(self, character: object):
+        self.team = []
+        while (self.choosing) and (len(self.team < 3)):  # enquanto o jogador estiver escolhendo o time e a lista de personagens for menor que 3
+            self.team.append(character)
         
 
 class CreditsMenu(Menu):
     def __init__(self, game):
         Menu.__init__(self, game)
-        self.credits = f'''--- Creditos ---
-        Artes:
-        Augusto Moraes Alves
-        Bernardo Seibert
-        Geisson Venancio do Nascimento
-        Giulia Guimaraes
-        Kaique Taylor Gripa dos Santos
-        Kiara Pezzin Silva
-        Raquel Paulo Silva
-        Rhuan dos Santos
-
-        Desenvolvimento do jogo:
-        Luiz Rojas
-
-        Documentacao:
-        Victor Aguiar Marques'''
+        self.credits = ['--- Creditos ---', 
+                        'Artes:',
+                        'Augusto Moraes Alves',
+                        'Bernardo Seibert',
+                        'Geisson Venancio do Nascimento',
+                        'Giulia Guimaraes',
+                        'Kaique Taylor Gripa dos Santos',
+                        'Kiara Pezzin Silva',
+                        'Raquel Paulo Silva',
+                        'Rhuan dos Santos',
+                        '',
+                        'Desenvolvimento do jogo:',
+                        'Luiz Rojas',
+                        'Andrei',
+                        'Joao Paulo'
+                        'Octavio Sales',
+                        'Karla Sancio',
+                        'Joao Gabriel de Barros Rocha',
+                        '',
+                        'Documentacao:',
+                        'Victor Aguiar Marques']
     
     def display_menu(self):
         self.run_display = True
+        x, y = self.game.DISPLAY_W // 2, self.game.DISPLAY_H // 2 - 5
         while self.run_display:
             self.game.check_events()
+
             if self.game.z_KEY or self.game.x_KEY:
                 self.game.curr_menu = self.game.main_menu
                 self.run_display = False
+
             self.game.display.fill(self.game.BLACK)
-            self.game.draw_text(self.credits, 10, self.game.DISPLAY_W // 2, self.game.DISPLAY_H // 2 - 20)
+
+            for text in self.credits:
+                self.game.draw_text(text, 20, x, y, self.game.WHITE)
+                y += 25
             self.blit_screen()

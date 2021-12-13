@@ -14,16 +14,16 @@ class Character():
         self.defense = 10
         self.speed = 2
         self.defeat = False
-        self.ui_bg = pg.image.load('UI/introcomp_menu.png')
+        self.ui_bg = pg.transform.scale(pg.image.load('UI/introcomp_menu(resized).png'), (150, 150))
         self.shadow = pg.image.load('UI/introcomp_character.png')
-        self.catalog = {  # sprites catalog
-            'wizard': pg.transform.scale2x(pg.image.load('Personagens/mago(final).png')),
-            'witch': pg.transform.scale2x(pg.image.load('Personagens/bruxa.png')),
-            'vampire': pg.transform.scale2x(pg.image.load('Personagens/vampiro.png')),
-            'skeleton': pg.transform.scale2x(pg.image.load('Personagens/caveira.png')),
-            'cleric': pg.transform.scale2x(pg.image.load('Personagens/clerigo(sem_sombra).png')),
-            'paladin': pg.transform.scale2x(pg.image.load('Personagens/paladino.png')),
-            'hunter': pg.transform.scale2x(pg.image.load('Personagens/cacadora.png')),
+        self.catalog = {  # catalogo de sprites dos personagens
+            'wizard': pg.transform.scale(pg.image.load('Personagens/mago(final).png'), (90, 90)),
+            'witch': pg.transform.scale(pg.image.load('Personagens/bruxa.png'), (90, 90)),
+            'Rogue': pg.transform.scale(pg.image.load('Personagens/vampiro.png'), (90, 90)),
+            'skeleton': pg.transform.scale(pg.image.load('Personagens/caveira.png'), (90, 90)),
+            'Priest': pg.transform.scale(pg.image.load('Personagens/clerigo(sem_sombra).png'), (90, 90)),
+            'paladin': pg.transform.scale(pg.image.load('Personagens/paladino.png'), (90, 90)),
+            'hunter': pg.transform.scale(pg.image.load('Personagens/cacadora.png'), (90, 90)),
         }
 
     def attack_enemy(self, enemy):
@@ -35,7 +35,7 @@ class Character():
 
     def verifies_defeat(self):
         if self.health == 0:
-            self.defense = True
+            self.defeat = True
     
     def blit_character(self, x, y, img, screen):
         screen.blit(img, (x, y))
@@ -58,14 +58,14 @@ class Witch(Character):
         self.speed = 3
         self.img = self.catalog['witch']
 
-class Vampire(Character):
+class Rogue(Character):
     def __init__(self):
         super().__init__(self)
         self.health = 85
         self.attack = 10
         self.defense = 2
         self.speed = 5
-        self.img = self.catalog['Vampire']
+        self.img = self.catalog['Rogue']
 
 class Skeleton(Character):
     def __init__(self):
@@ -74,15 +74,16 @@ class Skeleton(Character):
         self.attack = 11
         self.defense = 6
         self.speed = 4
+        self.img = self.catalog['Skeleton']
 
-class Cleric(Character):
+class Priest(Character):
     def __init__(self):
         super().__init__(self)
         self.health = 80    
         self.attack = 7
         self.defense = 8
         self.speed = 4
-        self.img = self.catalog['Cleric']
+        self.img = self.catalog['Priest']
 
 class Paladin(Character):
     def __init__(self):
