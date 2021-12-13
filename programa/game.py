@@ -1,6 +1,7 @@
 import pygame as pg
 from pygame.locals import *
 from menu import *
+from battle_system import Battle
 
 
 class Game():
@@ -18,6 +19,7 @@ class Game():
 
         self.BLACK, self.WHITE = (0, 0, 0), (255, 255, 255)
 
+        self.battle_system = Battle(self)
         self.selection = SelectMenu(self)
         self.main_menu = MainMenu(self)
         self.credits = CreditsMenu(self)
@@ -35,7 +37,8 @@ class Game():
 
             self.display.fill(self.BLACK)  # preenchendo a tela com a cor preta
             self.window.blit(self.display, (0, 0))  # 'blitando' o display na janela 'window'
-            self.selection.display_menu()  # exibindo o menu de selecao
+            self.battle_system.display_scenery()
+            # self.selection.display_menu()  # exibindo o menu de selecao
 
             pg.display.flip()  # atualiza o display a cada iteracao do loop
             self.reset_keys()  # reinicia as teclas para o valor padrao

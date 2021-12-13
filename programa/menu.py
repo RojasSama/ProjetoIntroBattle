@@ -10,10 +10,8 @@ class Menu():
         self.cursor_img = pg.transform.scale(pg.image.load('UI/introcomp_seta(resized).png'), (18, 18))
         self.cursor_rect = pg.Rect(0, 0, 40, 40)  # armazenando as coordenadas do retangulo do cursor
         self.offset = - 100  # deslocamento do cursor
-        # self.arrow = pygame.image.load('UI/introcomp_seta.png')
     
     def draw_cursor(self):
-        # pygame.transform.rotate(self.arrow, - 90)
         self.game.draw_text('>', 25, self.cursor_rect.x, self.cursor_rect.y, self.game.WHITE)
 
     def blit_screen(self):
@@ -104,10 +102,10 @@ class SelectMenu(Menu):
         self.game.display.blit(self.curr_img, img_rect)
     
     def move_cursor(self):
-        if self.game.RIGHT_KEY:
-            if self.position == 'Priest':
+        if self.game.RIGHT_KEY:  # caso o jogador pressione a tecla 'seta para direita' verifique a posicao do cursor
+            if self.position == 'Priest':  # o cursor recebe uma nova posicao a cada movimentacao do cursor
                 self.position = 'Paladin'
-                self.draw_cursor('Paladin')
+                self.draw_cursor('Paladin')  # metodo desenhar cursor
 
             elif self.position == 'Paladin':
                 self.position = 'Hunter'
@@ -200,7 +198,7 @@ class SelectMenu(Menu):
     
     def select_team(self, character: object):
         self.team = []
-        while (self.choosing) and (len(self.team < 3)):
+        while (self.choosing) and (len(self.team < 3)):  # enquanto o jogador estiver escolhendo o time e a lista de personagens for menor que 3
             self.team.append(character)
         
 
