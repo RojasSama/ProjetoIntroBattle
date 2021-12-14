@@ -19,9 +19,9 @@ class Character():
         self.catalog = {  # catalogo de sprites dos personagens
             'wizard': pg.transform.scale(pg.image.load('Personagens/mago(final).png'), (90, 90)),
             'witch': pg.transform.scale(pg.image.load('Personagens/bruxa.png'), (90, 90)),
-            'Rogue': pg.transform.scale(pg.image.load('Personagens/vampiro.png'), (90, 90)),
+            'rogue': pg.transform.scale(pg.image.load('Personagens/vampiro.png'), (90, 90)),
             'skeleton': pg.transform.scale(pg.image.load('Personagens/caveira.png'), (90, 90)),
-            'Priest': pg.transform.scale(pg.image.load('Personagens/clerigo(sem_sombra).png'), (90, 90)),
+            'priest': pg.transform.scale(pg.image.load('Personagens/clerigo(sem_sombra).png'), (90, 90)),
             'paladin': pg.transform.scale(pg.image.load('Personagens/paladino.png'), (90, 90)),
             'hunter': pg.transform.scale(pg.image.load('Personagens/cacadora.png'), (90, 90)),
         }
@@ -39,7 +39,7 @@ class Character():
     
     def blit_character(self, x, y, img, screen):
         screen.blit(img, (x, y))
-        
+
 class Wizard(Character):
     def __init__(self):
         super().__init__(self)
