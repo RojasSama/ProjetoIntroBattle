@@ -212,7 +212,6 @@ class CreditsMenu(Menu):
     def __init__(self, game):
         Menu.__init__(self, game)
         self.x, self.y = self.game.DISPLAY_W // 2, 10
-        self.running = False
         self.credits = ['--- Creditos ---', 
                         'Artes:',
                         'Augusto Moraes Alves',
@@ -234,30 +233,26 @@ class CreditsMenu(Menu):
                         '',
                         'Documentacao:',
                         'Victor Aguiar Marques']
-    
-    def check_input(self):
-        self.game.check_events()
-        if self.game.x_KEY:
-            self.running = False
-            self.run_display = False
 
     def display_menu(self):
+        self.run_display = True
 
-        self.running = True
-        cont = 0
+        self.lines = []
+        for line in self.credits:
+            self.lines.append((line, self.y))
+            self.y += 25
+
         while self.run_display:
-            self.game.display.fill(self.game.BLACK)
-
             self.check_input()
-
-            for index, line in enumerate(self.credits):
-                self.game.draw_text(line, 40, self.x, self.y, self.game.WHITE)
-                if cont < 0:
-                    if index == len(self.credits):
-                        cont = 1
-                        continue
-
-                self.y += 25
+            self.game.display.fill(self.game.BLACK)
+            
+            for content in self.lines:
+                self.game.draw_text(content[0], 20, self.x, content[1], self.game.WHITE)
 
             self.game.reset_keys()
             self.blit_screen()
+
+    def check_input(self):
+        self.game.check_events()
+        if self.game.x_KEY:
+            self.run_display = False
