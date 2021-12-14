@@ -226,7 +226,7 @@ class CreditsMenu(Menu):
                         'Desenvolvimento do jogo:',
                         'Luiz Rojas',
                         'Andrei',
-                        'Joao Paulo'
+                        'Joao Paulo',
                         'Octavio Sales',
                         'Karla Sancio',
                         'Joao Gabriel de Barros Rocha',
@@ -237,6 +237,7 @@ class CreditsMenu(Menu):
     def display_menu(self):
         self.run_display = True
 
+        self.y = 50
         self.lines = []
         for line in self.credits:
             self.lines.append((line, self.y))
