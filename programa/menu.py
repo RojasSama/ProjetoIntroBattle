@@ -204,7 +204,7 @@ class SelectMenu(Menu):
     def select_team(self, character: object):
         self.choosing = True
         if not (character in self.team):
-            while (self.choosing) and (len(self.team) < 3):  # enquanto o jogador estiver escolhendo o time e a lista de personagens for menor que 3
+            if (self.choosing) and (len(self.team) < 3):  # enquanto o jogador estiver escolhendo o time e a lista de personagens for menor que 3
                 self.team.append(character)
                 print(self.team)
 
@@ -212,7 +212,8 @@ class CreditsMenu(Menu):
     def __init__(self, game):
         Menu.__init__(self, game)
         self.x, self.y = self.game.DISPLAY_W // 2, 10
-        self.credits = ['--- Creditos ---', 
+        self.credits = ['--- Creditos ---',
+                        '',
                         'Artes:',
                         'Augusto Moraes Alves',
                         'Bernardo Seibert',
@@ -237,7 +238,7 @@ class CreditsMenu(Menu):
     def display_menu(self):
         self.run_display = True
 
-        self.y = 50
+        self.y = 65
         self.lines = []
         for line in self.credits:
             self.lines.append((line, self.y))
@@ -248,7 +249,7 @@ class CreditsMenu(Menu):
             self.game.display.fill(self.game.BLACK)
             
             for content in self.lines:
-                self.game.draw_text(content[0], 20, self.x, content[1], self.game.WHITE)
+                self.game.draw_text(content[0], 35, self.x, content[1], self.game.WHITE)
 
             self.game.reset_keys()
             self.blit_screen()
