@@ -76,7 +76,7 @@ class MainMenu(Menu):
                 self.game.playing = True
             
             elif self.state == 'Credits':
-                self.game.curr_menu = self.game.credits
+                self.game.curr_menu = self.game.credits.display_menu()
 
             elif self.state == 'Exit':
                 self.game.running, self.game.playing = False, False
@@ -88,7 +88,7 @@ class SelectMenu(Menu):
         Menu.__init__(self, game)
         self.position = 'priest'  # posicao inicial do cursor na tela de selecao
         self.bg = pg.transform.scale(pg.image.load('Background/cenario(menu).png'), (1024, 768))
-        self.choosing = True
+        self.choosing, self.running = False, False
         self.team = []
         self.char = Character()
         self.state = {  # coordenadas de cada personagem no menu de selecao
@@ -162,7 +162,7 @@ class SelectMenu(Menu):
             self.game.display.blit(self.char.ui_bg, (310, 450))
             self.game.display.blit(self.char.ui_bg, (535, 450))
 
-            ########################################## displaying the characters ##########################################################
+            ########################################## displaying the characters ########################################################
             self.char.blit_character(self.state['priest'][0], self.state['priest'][1], self.char.catalog['priest'], self.game.display)
             self.char.blit_character(self.state['paladin'][0], self.state['paladin'][1], self.char.catalog['paladin'], self.game.display)
             self.char.blit_character(self.state['hunter'][0], self.state['hunter'][1], self.char.catalog['hunter'], self.game.display)
@@ -176,6 +176,7 @@ class SelectMenu(Menu):
             self.game.draw_text('Rogue', 20, 605, 575, self.game.BLACK)
 
             self.draw_cursor(self.position)
+            self.game.reset_keys()
             self.blit_screen()
 
     def check_input(self):
@@ -196,22 +197,22 @@ class SelectMenu(Menu):
             elif self.position == 'rogue':
                 self.select_team(Rogue)
 
-        if self.game.x_KEY:
-            self.game.playing = False
-            self.choosing = False
+        elif self.game.x_KEY:
+            self.choosing, self.running = False, False
             self.team = []
     
     def select_team(self, character: object):
+        self.choosing = True
         if not (character in self.team):
             while (self.choosing) and (len(self.team) < 3):  # enquanto o jogador estiver escolhendo o time e a lista de personagens for menor que 3
                 self.team.append(character)
                 print(self.team)
 
-            self.choosing = False
-
 class CreditsMenu(Menu):
     def __init__(self, game):
         Menu.__init__(self, game)
+        self.x, self.y = self.game.DISPLAY_W // 2, 10
+        self.running = False
         self.credits = ['--- Creditos ---', 
                         'Artes:',
                         'Augusto Moraes Alves',
@@ -234,19 +235,29 @@ class CreditsMenu(Menu):
                         'Documentacao:',
                         'Victor Aguiar Marques']
     
+    def check_input(self):
+        self.game.check_events()
+        if self.game.x_KEY:
+            self.running = False
+            self.run_display = False
+
     def display_menu(self):
-        self.run_display = True
-        x, y = self.game.DISPLAY_W // 2, self.game.DISPLAY_H // 2 - 5
+
+        self.running = True
+        cont = 0
         while self.run_display:
-            self.game.check_events()
-
-            if self.game.z_KEY or self.game.x_KEY:
-                self.game.curr_menu = self.game.main_menu
-                self.run_display = False
-
             self.game.display.fill(self.game.BLACK)
 
-            for text in self.credits:
-                self.game.draw_text(text, 20, x, y, self.game.WHITE)
-                y += 25
+            self.check_input()
+
+            for index, line in enumerate(self.credits):
+                self.game.draw_text(line, 40, self.x, self.y, self.game.WHITE)
+                if cont < 0:
+                    if index == len(self.credits):
+                        cont = 1
+                        continue
+
+                self.y += 25
+
+            self.game.reset_keys()
             self.blit_screen()
