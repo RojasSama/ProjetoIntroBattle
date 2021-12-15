@@ -14,6 +14,7 @@ class Character():
         self.defense = 10
         self.speed = 2
         self.defeat = False
+        
         self.ui_bg = pg.transform.scale(pg.image.load('UI/introcomp_menu(resized).png'), (150, 150))
         self.shadow = pg.image.load('UI/introcomp_character.png')
         self.catalog = {  # catalogo de sprites dos personagens

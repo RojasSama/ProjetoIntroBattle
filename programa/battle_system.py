@@ -1,23 +1,20 @@
 import pygame as pg
-from menu import *
 from game import *
 from character import *
 
 class Battle():
     def __init__(self, game):
         self.game = game
-        self.runnig = False
+        self.running = False
         self.bg_img = pg.transform.scale(pg.image.load('Background/cenario(lutas).png'), (1024, 768))
         self.ui_1 = pg.transform.scale(pg.image.load('UI/introcomp_menu(resized).png'), (650, 250))
         self.ui_2 = pg.transform.scale(self.ui_1, (360, 250))
         self.cursor = pg.transform.scale(pg.image.load('UI/introcomp_seta(resized).png'), (10, 10))
-        self.player_team = SelectMenu(self.game)
+        self.player_team = game
         self.coord_enemies = {'Witch': [850, 75], 'Skeleton': [850, 450]}
 
 
     def display_scenery(self):
-        self.player_team = [Hunter, Priest, Rogue]
-        self.running = True
         if self.running:
 
             self.game.display.fill(self.game.BLACK)
