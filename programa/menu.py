@@ -1,6 +1,7 @@
 import pygame as pg
 from pygame.constants import K_RIGHT, KEYDOWN, KEYUP
 from character import *
+from battle_system import Battle
 
 class Menu():
     def __init__(self, game):
@@ -169,6 +170,7 @@ class SelectMenu(Menu):
             self.char.blit_character(self.state['wizard'][0], self.state['wizard'][1], self.char.catalog['wizard'], self.game.display)
             self.char.blit_character(self.state['rogue'][0], self.state['rogue'][1], self.char.catalog['rogue'], self.game.display)
 
+            ################# displaying the texts ######################
             self.game.draw_text('Priest', 20, 275, 230, self.game.BLACK)
             self.game.draw_text('Paladin', 20, 510, 230, self.game.BLACK)
             self.game.draw_text('Hunter', 20, 725, 230, self.game.BLACK)
@@ -197,14 +199,18 @@ class SelectMenu(Menu):
             elif self.position == 'rogue':
                 self.select_team(Rogue)
 
-        elif self.game.x_KEY:
+        elif self.game.x_KEY or len(self.team) == 3:
             self.choosing, self.running = False, False
             self.team = []
+        
+        elif len(self.team) == 3:
+            self.running, self.choosing = False, False
+            self.game.battle_system.running = True
     
     def select_team(self, character: object):
         self.choosing = True
         if not (character in self.team):
-            if (self.choosing) and (len(self.team) < 3):  # enquanto o jogador estiver escolhendo o time e a lista de personagens for menor que 3
+            if (self.choosing) and (len(self.team) < 3):  # se o jogador estiver escolhendo o time, e o tamanho da lista time for menor que 3
                 self.team.append(character)
                 print(self.team)
 
