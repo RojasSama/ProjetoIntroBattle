@@ -1,7 +1,6 @@
 import pygame as pg
 from pygame.constants import K_RIGHT, KEYDOWN, KEYUP
 from character import *
-from battle_system import Battle
 
 class Menu():
     def __init__(self, game):
@@ -199,12 +198,12 @@ class SelectMenu(Menu):
             elif self.position == 'rogue':
                 self.select_team(Rogue)
 
-        elif self.game.x_KEY or len(self.team) == 3:
-            self.choosing, self.running = False, False
+        elif self.game.x_KEY:
+            self.choosing, self.running, self.run_display = False, False, False
             self.team = []
         
         elif len(self.team) == 3:
-            self.running, self.choosing = False, False
+            self.running, self.choosing, self.run_display = False, False, False
             self.game.battle_system.running = True
     
     def select_team(self, character: object):

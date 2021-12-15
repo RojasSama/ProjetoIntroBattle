@@ -5,7 +5,7 @@ from character import *
 class Battle():
     def __init__(self, game):
         self.game = game
-        self.running = False
+        self.running, self.playing = False, False
         self.bg_img = pg.transform.scale(pg.image.load('Background/cenario(lutas).png'), (1024, 768))
         self.ui_1 = pg.transform.scale(pg.image.load('UI/introcomp_menu(resized).png'), (650, 250))
         self.ui_2 = pg.transform.scale(self.ui_1, (360, 250))
@@ -32,4 +32,4 @@ class Battle():
             # Character.blit_character(self.coord_enemies['Skeleton'][0], self.coord_enemies['Skeleton'][1], Character.catalog['Skeleton'], self.game.display)
             ####################################################################################################################################################
 
-            Menu.blit_screen(self)
+            self.game.main_menu.blit_screen()
