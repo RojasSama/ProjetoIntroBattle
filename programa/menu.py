@@ -1,7 +1,6 @@
 import pygame as pg
 from pygame.constants import K_RIGHT, KEYDOWN, KEYUP
 from character import *
-from battle_system import Battle
 
 class Menu():
     def __init__(self, game):
@@ -164,7 +163,7 @@ class SelectMenu(Menu):
             self.game.display.blit(self.char.ui_bg, (535, 450))
 
             ########################################## displaying the characters ########################################################
-            self.char.blit_character(self.state['priest'][0], self.state['priest'][1], self.char.catalog['priest'], self.game.display)
+            self.char.blit_character(self.state['priest'][0], self.state['priest'][1], pg.transform.flip(self.char.catalog['priest'], True, False), self.game.display)
             self.char.blit_character(self.state['paladin'][0], self.state['paladin'][1], self.char.catalog['paladin'], self.game.display)
             self.char.blit_character(self.state['hunter'][0], self.state['hunter'][1], self.char.catalog['hunter'], self.game.display)
             self.char.blit_character(self.state['wizard'][0], self.state['wizard'][1], self.char.catalog['wizard'], self.game.display)
@@ -199,12 +198,12 @@ class SelectMenu(Menu):
             elif self.position == 'rogue':
                 self.select_team(Rogue)
 
-        elif self.game.x_KEY or len(self.team) == 3:
-            self.choosing, self.running = False, False
+        elif self.game.x_KEY:
+            self.choosing, self.running, self.run_display = False, False, False
             self.team = []
         
         elif len(self.team) == 3:
-            self.running, self.choosing = False, False
+            self.running, self.choosing, self.run_display = False, False, False
             self.game.battle_system.running = True
     
     def select_team(self, character: object):
