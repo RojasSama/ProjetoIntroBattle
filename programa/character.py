@@ -104,4 +104,3 @@ class Hunter(Character):
         self.defense = 3
         self.speed = 5
         self.img = self.catalog['Hunter']
-    
