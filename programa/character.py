@@ -19,7 +19,7 @@ class Character():
         self.ui_bg = pg.transform.scale(pg.image.load('UI/introcomp_menu(resized).png'), (150, 150))
         self.shadow = pg.image.load('UI/introcomp_character.png')
         self.catalog = {  # catalogo de sprites dos personagens
-            'wizard': pg.transform.scale(pg.image.load('Personagens/mago(final).png'), (90, 90)),
+            'wizard': pg.transform.flip(pg.transform.scale(pg.image.load('Personagens/mago(final).png'), (90, 90)), True, False),
             'witch': pg.transform.scale(pg.image.load('Personagens/bruxa.png'), (90, 90)),
             'rogue': pg.transform.scale(pg.image.load('Personagens/vampiro.png'), (90, 90)),
             'skeleton': pg.transform.scale(pg.image.load('Personagens/caveira.png'), (90, 90)),
@@ -32,7 +32,7 @@ class Character():
         damage = (self.attack * 50) // 50 + (enemy.df * 2)
         enemy.hp += damage
 
-    def defensor(self, damage):
+    def defend(self, damage):
         self.health += damage
 
     def verifies_defeat(self):
