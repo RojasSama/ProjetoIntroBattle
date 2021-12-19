@@ -1,5 +1,4 @@
 import pygame as pg
-from pygame import display
 from game import *
 from character import *
 
@@ -17,7 +16,6 @@ class Battle(SelectMenu):
         self.coord_enemies = {'witch': [850, 185, pg.transform.flip(SelectMenu(self.game).char.catalog['witch'], True, False)], 'skeleton': [850, 350, pg.transform.flip(SelectMenu(self.game).char.catalog['skeleton'], True, False)]}
     
     def display_cursor(self, position):
-        self.move_cursor()
         self.positions = {'attack' : [45, 700], 'defend' : [260, 700]}
         
         self.imgx, self.imgy = self.positions[position][0] + 50, self.positions[position][1] - 50  # as coordenadas do cursor sao baseadas nas dos personagens
@@ -35,16 +33,11 @@ class Battle(SelectMenu):
             if self.position == 'defend':
                 self.position = 'attack'
                 self.display_cursor(self.position)
-        
-        self.game.reset_keys()
 
     def show_hp(self):
-        # total_hp_team = [self.player_team[0].health, self.player_team[1].health, self.player_team[2].health]
-        # current_hp = total_hp_team.copy()
-        
-        self.game.draw_text(f'{Rogue.__name__} - {12} / {100}', 35, 850, 550, self.game.BLACK)
-        self.game.draw_text(f'{Wizard.__name__} - {50} / {100}', 35, 850, 600, self.game.BLACK)
-        self.game.draw_text(f'{Hunter.__name__} - {75} / {100}', 35, 850, 650, self.game.BLACK)
+        self.game.draw_text(f'{Rogue.__class__.__name__} - {12} / {100}', 35, 850, 550, self.game.BLACK)
+        self.game.draw_text(f'{Wizard.__class__.__name__} - {50} / {100}', 35, 850, 600, self.game.BLACK)
+        self.game.draw_text(f'{Hunter.__class__.__name__} - {75} / {100}', 35, 850, 650, self.game.BLACK)
 
     def display_scenery(self):
         
@@ -68,7 +61,7 @@ class Battle(SelectMenu):
                 Character().blit_character(90, 255, SelectMenu(self.game).char.catalog['wizard'], self.game.display)
                 Character().blit_character(50, 350, SelectMenu(self.game).char.catalog['hunter'], self.game.display)
 
-            self.display_cursor(self.position)
+            self.move_cursor()
             ########################################### Apresentando problemas #######################
             # self.player_team[0].blit_character(250, 75, self.player_team[0].img, self.game.display)
             # self.player_team[1].blit_character(50, 250, self.player_team[1].img, self.game.display)
