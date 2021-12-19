@@ -163,7 +163,7 @@ class SelectMenu(Menu):
             self.game.display.blit(self.char.ui_bg, (535, 450))
 
             ########################################## displaying the characters ########################################################
-            self.char.blit_character(self.state['priest'][0], self.state['priest'][1], pg.transform.flip(self.char.catalog['priest'], True, False), self.game.display)
+            self.char.blit_character(self.state['priest'][0], self.state['priest'][1], self.char.catalog['priest'], self.game.display)
             self.char.blit_character(self.state['paladin'][0], self.state['paladin'][1], self.char.catalog['paladin'], self.game.display)
             self.char.blit_character(self.state['hunter'][0], self.state['hunter'][1], self.char.catalog['hunter'], self.game.display)
             self.char.blit_character(self.state['wizard'][0], self.state['wizard'][1], self.char.catalog['wizard'], self.game.display)
