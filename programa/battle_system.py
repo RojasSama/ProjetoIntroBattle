@@ -34,14 +34,14 @@ class Battle(SelectMenu):
                 self.position = 'Attack'
                 self.display_cursor(self.position)
 
-    def show_hp(self):
-        self.game.draw_text(f'{self.team[0].__name__} - {12} / {100}', 35, 850, 550, self.game.BLACK)
-        self.game.draw_text(f'{self.team[1].__name__} - {50} / {100}', 35, 850, 600, self.game.BLACK)
-        self.game.draw_text(f'{self.team[2].__name__} - {75} / {100}', 35, 850, 650, self.game.BLACK)
+    def show_hp(self):  # exibindo os pontos de vida de cada personagem
+        self.health_points = [self.team[0].health, self.team[1].health, self.team[2].health]  # pontos de vida iniciais dos personagens
+
+        self.game.draw_text(f'{self.team[0].__name__} - {self.team[0].health} / {self.health_points[0]}', 35, 850, 550, self.game.BLACK)
+        self.game.draw_text(f'{self.team[1].__name__} - {self.team[1].health} / {self.health_points[1]}', 35, 850, 600, self.game.BLACK)
+        self.game.draw_text(f'{self.team[2].__name__} - {self.team[2].health} / {self.health_points[2]}', 35, 850, 650, self.game.BLACK)
 
     def display_scenery(self):
-        
-        self.running = True
         if self.running:
             self.game.check_events()
 
@@ -57,9 +57,9 @@ class Battle(SelectMenu):
 
                 self.show_hp()
 
-                Character().blit_character(50, 185, SelectMenu(self.game).char.catalog['Rogue'], self.game.display)
-                Character().blit_character(90, 255, SelectMenu(self.game).char.catalog['Wizard'], self.game.display)
-                Character().blit_character(50, 350, SelectMenu(self.game).char.catalog['Hunter'], self.game.display)
+                Character().blit_character(50, 185, SelectMenu(self.game).char.catalog[self.team[0].__name__], self.game.display)
+                Character().blit_character(90, 255, SelectMenu(self.game).char.catalog[self.team[1].__name__], self.game.display)
+                Character().blit_character(50, 350, SelectMenu(self.game).char.catalog[self.team[2].__name__], self.game.display)
 
             self.move_cursor()
             

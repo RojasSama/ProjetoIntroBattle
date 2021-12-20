@@ -74,6 +74,7 @@ class MainMenu(Menu):
         if self.game.z_KEY:
             if self.state == 'Start':
                 self.game.playing = True
+                self.game.selection.running = True
             
             elif self.state == 'Credits':
                 self.game.curr_menu = self.game.credits.display_menu()
@@ -89,7 +90,7 @@ class SelectMenu(Menu):
         self.position = 'Priest'  # posicao inicial do cursor na tela de selecao
         self.bg = pg.transform.scale(pg.image.load('Background/cenario(menu).png'), (1024, 768))
         self.choosing, self.running = False, False
-        self.team = [Hunter, Priest, Paladin]
+        self.team = []
         self.char = Character()
         self.state = {  # coordenadas de cada personagem no menu de selecao
             'Priest': [245, 130], 'Paladin': [465, 130], 'Hunter': [685, 130],
@@ -147,7 +148,7 @@ class SelectMenu(Menu):
                 self.draw_cursor(self.position)
 
     def display_menu(self):
-        self.run_display = True
+        # self.run_display = True
         if self.run_display:
             self.check_input()
             self.game.display.fill(self.game.BLACK)
@@ -183,20 +184,20 @@ class SelectMenu(Menu):
     def check_input(self):
         self.move_cursor()
         if self.game.z_KEY:
-            if self.position == 'priest':
-                self.select_team('Priest')
+            if self.position == 'Priest':
+                self.select_team(Priest)
             
-            elif self.position == 'paladin':
-                self.select_team('Paladin')
+            elif self.position == 'Paladin':
+                self.select_team(Paladin)
 
-            elif self.position == 'hunter':
-                self.select_team('Hunter')
+            elif self.position == 'Hunter':
+                self.select_team(Hunter)
 
-            elif self.position == 'wizard':
-                self.select_team('Witch')
+            elif self.position == 'Wizard':
+                self.select_team(Witch)
 
-            elif self.position == 'rogue':
-                self.select_team('Rogue')
+            elif self.position == 'Rogue':
+                self.select_team(Rogue)
 
         elif self.game.x_KEY:
             self.choosing, self.running, self.run_display = False, False, False
@@ -206,7 +207,7 @@ class SelectMenu(Menu):
             self.running, self.choosing, self.run_display = False, False, False
             self.game.battle_system.running = True
     
-    def select_team(self, character: str):
+    def select_team(self, character):
         self.choosing = True
         if not (character in self.team):
             if (self.choosing) and (len(self.team) < 3):  # se o jogador estiver escolhendo o time, e o tamanho da lista time for menor que 3
