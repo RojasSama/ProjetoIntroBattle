@@ -29,7 +29,7 @@ class Game():
         clock = pg.time.Clock()
         while self.playing:
 
-            clock.tick(30)  # definindo a taxa de quadros por segundo
+            clock.tick(60)  # definindo a taxa de quadros por segundo
             self.check_events()
 
             if self.x_KEY:

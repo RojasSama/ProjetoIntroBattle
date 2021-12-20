@@ -19,13 +19,13 @@ class Character():
         self.ui_bg = pg.transform.scale(pg.image.load('UI/introcomp_menu(resized).png'), (150, 150))
         self.shadow = pg.image.load('UI/introcomp_character.png')
         self.catalog = {  # catalogo de sprites dos personagens
-            'wizard': pg.transform.flip(pg.transform.scale(pg.image.load('Personagens/mago(final).png'), (90, 90)), True, False),
-            'witch': pg.transform.scale(pg.image.load('Personagens/bruxa.png'), (90, 90)),
-            'rogue': pg.transform.scale(pg.image.load('Personagens/vampiro.png'), (90, 90)),
-            'skeleton': pg.transform.scale(pg.image.load('Personagens/caveira.png'), (90, 90)),
-            'priest': pg.transform.scale(pg.image.load('Personagens/clerigo(sem_sombra).png'), (90, 90)),
-            'paladin': pg.transform.scale(pg.image.load('Personagens/paladino.png'), (90, 90)),
-            'hunter': pg.transform.scale(pg.image.load('Personagens/cacadora.png'), (90, 90)),
+            'Wizard': pg.transform.flip(pg.transform.scale(pg.image.load('Personagens/mago(final).png'), (90, 90)), True, False),
+            'Witch': pg.transform.scale(pg.image.load('Personagens/bruxa.png'), (90, 90)),
+            'Rogue': pg.transform.scale(pg.image.load('Personagens/vampiro.png'), (90, 90)),
+            'Skeleton': pg.transform.scale(pg.image.load('Personagens/caveira.png'), (90, 90)),
+            'Priest': pg.transform.scale(pg.image.load('Personagens/clerigo(sem_sombra).png'), (90, 90)),
+            'Paladin': pg.transform.scale(pg.image.load('Personagens/paladino.png'), (90, 90)),
+            'Hunter': pg.transform.scale(pg.image.load('Personagens/cacadora.png'), (90, 90)),
         }
 
     def attack_enemy(self, enemy):
@@ -49,7 +49,7 @@ class Wizard(Character):
         self.attack = 8
         self.defense = 5
         self.speed = 1
-        self.img = self.catalog['wizard']
+        self.img = self.catalog['Wizard']
 
 class Witch(Character):
     def __init__(self):
@@ -58,7 +58,7 @@ class Witch(Character):
         self.attack = 9
         self.defense = 4
         self.speed = 3
-        self.img = self.catalog['witch']
+        self.img = self.catalog['Witch']
 
 class Rogue(Character):
     def __init__(self):

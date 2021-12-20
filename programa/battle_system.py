@@ -11,12 +11,12 @@ class Battle(SelectMenu):
         self.ui_1 = pg.transform.scale(pg.image.load('UI/introcomp_menu(resized).png'), (650, 250))
         self.ui_2 = pg.transform.scale(self.ui_1, (360, 250))
         self.cursor = pg.transform.scale(pg.image.load('UI/introcomp_seta(resized).png'), (25, 25))
-        self.turn = 'player'
-        self.position = 'attack'
-        self.coord_enemies = {'witch': [850, 185, pg.transform.flip(SelectMenu(self.game).char.catalog['witch'], True, False)], 'skeleton': [850, 350, pg.transform.flip(SelectMenu(self.game).char.catalog['skeleton'], True, False)]}
+        self.turn = 'Player'
+        self.position = 'Attack'
+        self.coord_enemies = {'Witch': [850, 185, pg.transform.flip(SelectMenu(self.game).char.catalog['Witch'], True, False)], 'Skeleton': [850, 350, pg.transform.flip(SelectMenu(self.game).char.catalog['Skeleton'], True, False)]}
     
     def display_cursor(self, position):
-        self.positions = {'attack' : [45, 700], 'defend' : [260, 700]}
+        self.positions = {'Attack' : [45, 700], 'Defend' : [260, 700]}
         
         self.imgx, self.imgy = self.positions[position][0] + 50, self.positions[position][1] - 50  # as coordenadas do cursor sao baseadas nas dos personagens
         img_rect = self.cursor.get_rect()
@@ -25,19 +25,19 @@ class Battle(SelectMenu):
     
     def move_cursor(self):
         if self.game.RIGHT_KEY:
-            if self.position == 'attack':
-                self.position = 'defend'
+            if self.position == 'Attack':
+                self.position = 'Defend'
                 self.display_cursor(self.position)
         
         elif self.game.LEFT_KEY:
-            if self.position == 'defend':
-                self.position = 'attack'
+            if self.position == 'Defend':
+                self.position = 'Attack'
                 self.display_cursor(self.position)
 
     def show_hp(self):
-        self.game.draw_text(f'{Rogue.__class__.__name__} - {12} / {100}', 35, 850, 550, self.game.BLACK)
-        self.game.draw_text(f'{Wizard.__class__.__name__} - {50} / {100}', 35, 850, 600, self.game.BLACK)
-        self.game.draw_text(f'{Hunter.__class__.__name__} - {75} / {100}', 35, 850, 650, self.game.BLACK)
+        self.game.draw_text(f'{self.team[0].__name__} - {12} / {100}', 35, 850, 550, self.game.BLACK)
+        self.game.draw_text(f'{self.team[1].__name__} - {50} / {100}', 35, 850, 600, self.game.BLACK)
+        self.game.draw_text(f'{self.team[2].__name__} - {75} / {100}', 35, 850, 650, self.game.BLACK)
 
     def display_scenery(self):
         
@@ -57,19 +57,20 @@ class Battle(SelectMenu):
 
                 self.show_hp()
 
-                Character().blit_character(50, 185, SelectMenu(self.game).char.catalog['rogue'], self.game.display)
-                Character().blit_character(90, 255, SelectMenu(self.game).char.catalog['wizard'], self.game.display)
-                Character().blit_character(50, 350, SelectMenu(self.game).char.catalog['hunter'], self.game.display)
+                Character().blit_character(50, 185, SelectMenu(self.game).char.catalog['Rogue'], self.game.display)
+                Character().blit_character(90, 255, SelectMenu(self.game).char.catalog['Wizard'], self.game.display)
+                Character().blit_character(50, 350, SelectMenu(self.game).char.catalog['Hunter'], self.game.display)
 
             self.move_cursor()
+            
             ########################################### Apresentando problemas #######################
             # self.player_team[0].blit_character(250, 75, self.player_team[0].img, self.game.display)
             # self.player_team[1].blit_character(50, 250, self.player_team[1].img, self.game.display)
             # self.player_team[2].blit_character(250, 450, self.player_team[3].img, self.game.display)
             ##########################################################################################
             
-            Character().blit_character(self.coord_enemies['witch'][0], self.coord_enemies['witch'][1], self.coord_enemies['witch'][2], self.game.display)
-            Character().blit_character(self.coord_enemies['skeleton'][0], self.coord_enemies['skeleton'][1], self.coord_enemies['skeleton'][2], self.game.display)
+            Character().blit_character(self.coord_enemies['Witch'][0], self.coord_enemies['Witch'][1], self.coord_enemies['Witch'][2], self.game.display)
+            Character().blit_character(self.coord_enemies['Skeleton'][0], self.coord_enemies['Skeleton'][1], self.coord_enemies['Skeleton'][2], self.game.display)
 
             self.game.main_menu.blit_screen()
             # self.game.reset_keys()
