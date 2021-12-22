@@ -203,7 +203,7 @@ class SelectMenu(Menu):
             self.choosing, self.running, self.run_display = False, False, False
             self.team = []
         
-        elif len(self.team) == 3:
+        elif len(crew) == 3:
             self.running, self.choosing, self.run_display = False, False, False
             self.game.battle_system.running = True
     
@@ -211,8 +211,9 @@ class SelectMenu(Menu):
         self.choosing = True
         if not (character in self.team):
             if (self.choosing) and (len(self.team) < 3):  # se o jogador estiver escolhendo o time, e o tamanho da lista time for menor que 3
-                self.team.append(character)
-                print(self.team)
+                crew.append(character)
+
+crew = []
 
 class CreditsMenu(Menu):
     def __init__(self, game):

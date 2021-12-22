@@ -33,14 +33,22 @@ class Battle(SelectMenu):
             if self.position == 'Defend':
                 self.position = 'Attack'
                 self.display_cursor(self.position)
+    
+    def check_input(self):
+        self.move_cursor()
+        if self.game.z_KEY:
+            if self.position == 'Attack':
+                pass # <- aqui deve ser inserido o metodo attack_enemy da classe character
+
 
     def show_hp(self):  # exibindo os pontos de vida de cada personagem
-        self.health_points = [self.team[0].health, self.team[1].health, self.team[2].health]  # pontos de vida iniciais dos personagens
+        # self.health_points = [crew[0].health, crew[1].health, crew[2].health]  # pontos de vida iniciais dos personagens
 
-        self.game.draw_text(f'{self.team[0].__name__} - {self.team[0].health} / {self.health_points[0]}', 35, 850, 550, self.game.BLACK)
-        self.game.draw_text(f'{self.team[1].__name__} - {self.team[1].health} / {self.health_points[1]}', 35, 850, 600, self.game.BLACK)
-        self.game.draw_text(f'{self.team[2].__name__} - {self.team[2].health} / {self.health_points[2]}', 35, 850, 650, self.game.BLACK)
-
+        # self.game.draw_text(f'{crew[0].__name__} - {crew[0].health} / {self.health_points[0]}', 35, 850, 550, self.game.BLACK)
+        # self.game.draw_text(f'{crew[1].__name__} - {crew[1].health} / {self.health_points[1]}', 35, 850, 600, self.game.BLACK)
+        # self.game.draw_text(f'{crew[2].__name__} - {crew[2].health} / {self.health_points[2]}', 35, 850, 650, self.game.BLACK)
+        pass
+        
     def display_scenery(self):
         if self.running:
             self.game.check_events()
@@ -50,16 +58,16 @@ class Battle(SelectMenu):
             self.game.display.blit(self.ui_1, (5, 510))
             self.game.display.blit(self.ui_2, (660, 510))
 
-            if self.turn == 'player':
+            if self.turn == 'Player':
                 self.game.draw_text("Player's turn!", 40, 175, 560, self.game.BLACK)
                 self.game.draw_text('Attack', 35, 175, 650, self.game.BLACK)
                 self.game.draw_text('Defend', 35, 390, 650, self.game.BLACK)
 
                 self.show_hp()
 
-                Character().blit_character(50, 185, SelectMenu(self.game).char.catalog[self.team[0].__name__], self.game.display)
-                Character().blit_character(90, 255, SelectMenu(self.game).char.catalog[self.team[1].__name__], self.game.display)
-                Character().blit_character(50, 350, SelectMenu(self.game).char.catalog[self.team[2].__name__], self.game.display)
+                Character().blit_character(50, 185, self.char.catalog[crew[0].__name__], self.game.display)
+                Character().blit_character(90, 255, self.char.catalog[crew[1].__name__], self.game.display)
+                Character().blit_character(50, 350, self.char.catalog[crew[2].__name__], self.game.display)
 
             self.move_cursor()
             

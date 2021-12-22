@@ -45,7 +45,7 @@ class Character():
 class Wizard(Character):
     def __init__(self):
         super().__init__(self)
-        self.heath = 80
+        self.health = 80
         self.attack = 8
         self.defense = 5
         self.speed = 1
