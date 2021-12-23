@@ -13,7 +13,7 @@ class Battle(SelectMenu):
         self.cursor = pg.transform.scale(pg.image.load('UI/introcomp_seta(resized).png'), (25, 25))
         self.turn = 'Player'
         self.position = 'Attack'
-        self.coord_enemies = {'Witch': [850, 185, pg.transform.flip(SelectMenu(self.game).char.catalog['Witch'], True, False)], 'Skeleton': [850, 350, pg.transform.flip(SelectMenu(self.game).char.catalog['Skeleton'], True, False)]}
+        self.coord_enemies = {'Witch': [850, 185, pg.transform.flip(SelectMenu(self.game).char.catalog['Witch'], True, False), Witch], 'Skeleton': [850, 350, pg.transform.flip(SelectMenu(self.game).char.catalog['Skeleton'], True, False), Skeleton]}
     
     def display_cursor(self, position):
         self.positions = {'Attack' : [45, 700], 'Defend' : [260, 700]}
@@ -28,11 +28,15 @@ class Battle(SelectMenu):
             if self.position == 'Attack':
                 self.position = 'Defend'
                 self.display_cursor(self.position)
-        
-        elif self.game.LEFT_KEY:
-            if self.position == 'Attack':
-                self.position = 'defend'
+            
+            elif self.position == 'Defend':
+                self.position = 'Attack'
                 self.display_cursor(self.position)
+        
+        # elif self.game.LEFT_KEY:
+        #     if self.position == 'Attack':
+        #         self.position = 'defend'
+        #         self.display_cursor(self.position)
     
     def check_input(self):
         self.move_cursor()
@@ -40,6 +44,8 @@ class Battle(SelectMenu):
             if self.position == 'Attack':
                 pass # <- aqui deve ser inserido o metodo attack_enemy da classe character, apos p usuario selecionar quem ele deseja atacar
 
+            elif self.position == 'Defend':
+                pass
 
     def show_hp(self):  # exibindo os pontos de vida de cada personagem
         self.health_points = [crew[0].show_hp(), crew[1].show_hp(), crew[2].show_hp()]  # pontos de vida iniciais dos personagens
@@ -47,7 +53,7 @@ class Battle(SelectMenu):
         self.game.draw_text(f'{crew[0].__class__.__name__}  - {crew[0].show_hp()} / {self.health_points[0]}', 35, 850, 550, self.game.BLACK)
         self.game.draw_text(f'{crew[1].__class__.__name__} - {crew[1].show_hp()} / {self.health_points[1]}', 35, 850, 600, self.game.BLACK)
         self.game.draw_text(f'{crew[2].__class__.__name__} - {crew[2].show_hp()} / {self.health_points[2]}', 35, 850, 650, self.game.BLACK)
-        
+
     def display_scenery(self):
         if self.running:
             self.game.check_events()
@@ -67,33 +73,33 @@ class Battle(SelectMenu):
 
             if self.turn == 'Player':
                 Turn.hero_turn(self)
-                
+
                 self.show_hp()
-                self.move_cursor()
-            
+                self.check_input()
+
             # enemies
             Character().blit_character(self.coord_enemies['Witch'][0], self.coord_enemies['Witch'][1], self.coord_enemies['Witch'][2], self.game.display)
             Character().blit_character(self.coord_enemies['Skeleton'][0], self.coord_enemies['Skeleton'][1], self.coord_enemies['Skeleton'][2], self.game.display)
 
             self.game.main_menu.blit_screen()
-            self.game.reset_keys()
+            # self.game.reset_keys()
 
 class Turn(Battle):
     def __init__(self):
         Battle.__init__(self)
         
     def hero_turn(self):
-        self.crew_speed = [int(x.show_speed()) for x in crew]
-        self.max_speed = max(self.crew_speed)
+        if self.turn == 'Player':
 
-        self.playing = ''
-        for count, speed in enumerate(self.crew_speed):
-            if speed == self.max_speed:
-                self.playing = crew[count].__class__.__name__
-        '''
-        self.playing = 0
-        for i in self.crew_speed:
-            if i > self.playing:
-                self.playing = i.__class__.__name__  # o heroi com a maior velocidade da equipe começa a rodada'''
+            self.crew_speed = [int(x.show_speed()) for x in crew]
+            self.max_speed = max(self.crew_speed)
 
-        self.game.draw_text(f"{self.playing}'s turn!", 40, 175, 560, self.game.BLACK)
+            self.playing = ''
+            for count, speed in enumerate(self.crew_speed):
+                if speed == self.max_speed:
+                    self.playing = crew[count].__class__.__name__
+
+            self.game.draw_text(f"{self.playing}'s turn!", 40, 175, 560, self.game.BLACK)
+
+    def enemy_turn(self):
+        pass
