@@ -1,5 +1,4 @@
 import pygame as pg
-from pygame.constants import K_RIGHT, KEYDOWN, KEYUP
 from character import *
 
 class Menu():
@@ -90,7 +89,6 @@ class SelectMenu(Menu):
         self.position = 'Priest'  # posicao inicial do cursor na tela de selecao
         self.bg = pg.transform.scale(pg.image.load('Background/cenario(menu).png'), (1024, 768))
         self.choosing, self.running = False, False
-        self.team = []
         self.char = Character()
         self.state = {  # coordenadas de cada personagem no menu de selecao
             'Priest': [245, 130], 'Paladin': [465, 130], 'Hunter': [685, 130],
@@ -185,32 +183,31 @@ class SelectMenu(Menu):
         self.move_cursor()
         if self.game.z_KEY:
             if self.position == 'Priest':
-                self.select_team(Priest)
+                self.select_team(Priest())
             
             elif self.position == 'Paladin':
-                self.select_team(Paladin)
+                self.select_team(Paladin())
 
             elif self.position == 'Hunter':
-                self.select_team(Hunter)
+                self.select_team(Hunter())
 
             elif self.position == 'Wizard':
-                self.select_team(Witch)
+                self.select_team(Wizard())
 
             elif self.position == 'Rogue':
-                self.select_team(Rogue)
+                self.select_team(Rogue())
 
         elif self.game.x_KEY:
             self.choosing, self.running, self.run_display = False, False, False
-            self.team = []
-        
+                    
         elif len(crew) == 3:
             self.running, self.choosing, self.run_display = False, False, False
             self.game.battle_system.running = True
     
     def select_team(self, character):
         self.choosing = True
-        if not (character in self.team):
-            if (self.choosing) and (len(self.team) < 3):  # se o jogador estiver escolhendo o time, e o tamanho da lista time for menor que 3
+        if not (character in crew):
+            if (self.choosing) and (len(crew) < 3):  # se o jogador estiver escolhendo o time, e o tamanho da lista time for menor que 3
                 crew.append(character)
 
 crew = []

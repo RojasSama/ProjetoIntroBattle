@@ -10,12 +10,6 @@ class Character():
         spd : character speed,
     '''
     def __init__(self):  # standard atributes
-        self.health = 80
-        self.attack = 8
-        self.defense = 10
-        self.speed = 2
-        self.defeat = False
-        
         self.ui_bg = pg.transform.scale(pg.image.load('UI/introcomp_menu(resized).png'), (150, 150))
         self.shadow = pg.image.load('UI/introcomp_character.png')
         self.catalog = {  # catalogo de sprites dos personagens
@@ -41,10 +35,22 @@ class Character():
     
     def blit_character(self, x, y, img, screen):
         screen.blit(img, (x, y))
+    
+    def show_hp(self):
+        return self.health
+    
+    def show_attack(self):
+        return self.attack
+    
+    def show_defense(self):
+        return self.defense
+
+    def show_speed(self):
+        return self.speed
 
 class Wizard(Character):
     def __init__(self):
-        super().__init__(self)
+        Character.__init__(self)
         self.health = 80
         self.attack = 8
         self.defense = 5
@@ -53,7 +59,7 @@ class Wizard(Character):
 
 class Witch(Character):
     def __init__(self):
-        super().__init__(self)
+        Character.__init__(self)
         self.health = 75
         self.attack = 9
         self.defense = 4
@@ -62,7 +68,7 @@ class Witch(Character):
 
 class Rogue(Character):
     def __init__(self):
-        super().__init__(self)
+        Character.__init__(self)
         self.health = 85
         self.attack = 10
         self.defense = 2
@@ -71,7 +77,7 @@ class Rogue(Character):
 
 class Skeleton(Character):
     def __init__(self):
-        super().__init__(self)
+        Character.__init__(self)
         self.health = 70
         self.attack = 11
         self.defense = 6
@@ -80,7 +86,7 @@ class Skeleton(Character):
 
 class Priest(Character):
     def __init__(self):
-        super().__init__(self)
+        Character.__init__(self)
         self.health = 80    
         self.attack = 7
         self.defense = 8
@@ -89,7 +95,7 @@ class Priest(Character):
 
 class Paladin(Character):
     def __init__(self):
-        super().__init__(self)
+        Character.__init__(self)
         self.health = 90
         self.attack = 5
         self.defense = 6
@@ -98,7 +104,7 @@ class Paladin(Character):
 
 class Hunter(Character):
     def __init__(self):
-        super().__init__(self)
+        Character.__init__(self)
         self.health = 85
         self.attack = 6
         self.defense = 3
