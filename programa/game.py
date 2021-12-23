@@ -29,7 +29,7 @@ class Game():
         clock = pg.time.Clock()
         while self.playing:
 
-            clock.tick(30)  # definindo a taxa de quadros por segundo
+            clock.tick(60)  # definindo a taxa de quadros por segundo
             self.check_events()
 
             if self.x_KEY:
@@ -38,8 +38,8 @@ class Game():
             self.display.fill(self.BLACK)  # preenchendo a tela com a cor preta
             self.window.blit(self.display, (0, 0))  # 'blitando' o display na janela 'window'
 
-            # self.battle_system.display_scenery()  # exibindo o sitema de batalhas
             self.selection.display_menu()  # exibindo o menu de selecao
+            self.battle_system.display_scenery()  # exibindo o sitema de batalhas
 
             pg.display.flip()  # atualiza o display a cada iteracao do loop
             self.reset_keys()  # reinicia as teclas para o valor padrao

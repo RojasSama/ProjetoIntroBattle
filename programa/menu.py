@@ -1,5 +1,4 @@
 import pygame as pg
-from pygame.constants import K_RIGHT, KEYDOWN, KEYUP
 from character import *
 
 class Menu():
@@ -74,6 +73,7 @@ class MainMenu(Menu):
         if self.game.z_KEY:
             if self.state == 'Start':
                 self.game.playing = True
+                self.game.selection.running = True
             
             elif self.state == 'Credits':
                 self.game.curr_menu = self.game.credits.display_menu()
@@ -86,14 +86,13 @@ class MainMenu(Menu):
 class SelectMenu(Menu):
     def __init__(self, game):
         Menu.__init__(self, game)
-        self.position = 'priest'  # posicao inicial do cursor na tela de selecao
+        self.position = 'Priest'  # posicao inicial do cursor na tela de selecao
         self.bg = pg.transform.scale(pg.image.load('Background/cenario(menu).png'), (1024, 768))
         self.choosing, self.running = False, False
-        self.team = []
         self.char = Character()
         self.state = {  # coordenadas de cada personagem no menu de selecao
-            'priest': [245, 130], 'paladin': [465, 130], 'hunter': [685, 130],
-            'wizard': [335, 475], 'rogue': [565, 475],
+            'Priest': [245, 130], 'Paladin': [465, 130], 'Hunter': [685, 130],
+            'Wizard': [335, 475], 'Rogue': [565, 475],
         }
     
     def draw_cursor(self, position):
@@ -105,49 +104,49 @@ class SelectMenu(Menu):
     
     def move_cursor(self):
         if self.game.RIGHT_KEY:  # caso o jogador pressione a tecla 'seta para direita' verifique a posicao do cursor
-            if self.position == 'priest':  # o cursor recebe uma nova posicao a cada movimentacao do cursor
-                self.position = 'paladin'
+            if self.position == 'Priest':  # o cursor recebe uma nova posicao a cada movimentacao do cursor
+                self.position = 'Paladin'
                 self.draw_cursor(self.position)  # metodo desenhar cursor
 
-            elif self.position == 'paladin':
-                self.position = 'hunter'
+            elif self.position == 'Paladin':
+                self.position = 'Hunter'
                 self.draw_cursor(self.position)
 
-            elif self.position == 'hunter':
-                self.position = 'wizard'
+            elif self.position == 'Hunter':
+                self.position = 'Wizard'
                 self.draw_cursor(self.position)
 
-            elif self.position == 'wizard':
-                self.position = 'rogue'
+            elif self.position == 'Wizard':
+                self.position = 'Rogue'
                 self.draw_cursor(self.position)
             
-            elif self.position == 'rogue':
-                self.position = 'priest'
+            elif self.position == 'Rogue':
+                self.position = 'Priest'
                 self.draw_cursor(self.position)
 
         elif self.game.LEFT_KEY:
-            if self.position == 'priest':
-                self.position = 'rogue'
+            if self.position == 'Priest':
+                self.position = 'Rogue'
                 self.draw_cursor(self.position)
 
-            elif self.position == 'rogue':
-                self.position = 'wizard'
+            elif self.position == 'Rogue':
+                self.position = 'Wizard'
                 self.draw_cursor(self.position)
             
-            elif self.position == 'wizard':
-                self.position = 'hunter'
+            elif self.position == 'Wizard':
+                self.position = 'Hunter'
                 self.draw_cursor(self.position)
             
-            elif self.position == 'hunter':
-                self.position = 'paladin'
+            elif self.position == 'Hunter':
+                self.position = 'Paladin'
                 self.draw_cursor(self.position)
             
-            elif self.position == 'paladin':
-                self.position = 'priest'
+            elif self.position == 'Paladin':
+                self.position = 'Priest'
                 self.draw_cursor(self.position)
 
     def display_menu(self):
-        self.run_display = True
+        # self.run_display = True
         if self.run_display:
             self.check_input()
             self.game.display.fill(self.game.BLACK)
@@ -163,11 +162,11 @@ class SelectMenu(Menu):
             self.game.display.blit(self.char.ui_bg, (535, 450))
 
             ########################################## displaying the characters ########################################################
-            self.char.blit_character(self.state['priest'][0], self.state['priest'][1], self.char.catalog['priest'], self.game.display)
-            self.char.blit_character(self.state['paladin'][0], self.state['paladin'][1], self.char.catalog['paladin'], self.game.display)
-            self.char.blit_character(self.state['hunter'][0], self.state['hunter'][1], self.char.catalog['hunter'], self.game.display)
-            self.char.blit_character(self.state['wizard'][0], self.state['wizard'][1], self.char.catalog['wizard'], self.game.display)
-            self.char.blit_character(self.state['rogue'][0], self.state['rogue'][1], self.char.catalog['rogue'], self.game.display)
+            self.char.blit_character(self.state['Priest'][0], self.state['Priest'][1], self.char.catalog['Priest'], self.game.display)
+            self.char.blit_character(self.state['Paladin'][0], self.state['Paladin'][1], self.char.catalog['Paladin'], self.game.display)
+            self.char.blit_character(self.state['Hunter'][0], self.state['Hunter'][1], self.char.catalog['Hunter'], self.game.display)
+            self.char.blit_character(self.state['Wizard'][0], self.state['Wizard'][1], self.char.catalog['Wizard'], self.game.display)
+            self.char.blit_character(self.state['Rogue'][0], self.state['Rogue'][1], self.char.catalog['Rogue'], self.game.display)
 
             ################# displaying the texts ######################
             self.game.draw_text('Priest', 20, 275, 230, self.game.BLACK)
@@ -183,35 +182,35 @@ class SelectMenu(Menu):
     def check_input(self):
         self.move_cursor()
         if self.game.z_KEY:
-            if self.position == 'priest':
-                self.select_team(Priest)
+            if self.position == 'Priest':
+                self.select_team(Priest())
             
-            elif self.position == 'paladin':
-                self.select_team(Paladin)
+            elif self.position == 'Paladin':
+                self.select_team(Paladin())
 
-            elif self.position == 'hunter':
-                self.select_team(Hunter)
+            elif self.position == 'Hunter':
+                self.select_team(Hunter())
 
-            elif self.position == 'wizard':
-                self.select_team(Witch)
+            elif self.position == 'Wizard':
+                self.select_team(Wizard())
 
-            elif self.position == 'rogue':
-                self.select_team(Rogue)
+            elif self.position == 'Rogue':
+                self.select_team(Rogue())
 
         elif self.game.x_KEY:
             self.choosing, self.running, self.run_display = False, False, False
-            self.team = []
-        
-        elif len(self.team) == 3:
+                    
+        elif len(crew) == 3:
             self.running, self.choosing, self.run_display = False, False, False
             self.game.battle_system.running = True
     
-    def select_team(self, character: object):
+    def select_team(self, character):
         self.choosing = True
-        if not (character in self.team):
-            if (self.choosing) and (len(self.team) < 3):  # se o jogador estiver escolhendo o time, e o tamanho da lista time for menor que 3
-                self.team.append(character)
-                print(self.team)
+        if not (character in crew):
+            if (self.choosing) and (len(crew) < 3):  # se o jogador estiver escolhendo o time, e o tamanho da lista time for menor que 3
+                crew.append(character)
+
+crew = []
 
 class CreditsMenu(Menu):
     def __init__(self, game):
