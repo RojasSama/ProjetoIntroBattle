@@ -12,39 +12,34 @@ class Battle(SelectMenu):
         self.ui_2 = pg.transform.scale(self.ui_1, (360, 250))
         self.cursor = pg.transform.scale(pg.image.load('UI/introcomp_seta(resized).png'), (25, 25))
         self.turn = 'Player'
-        self.position = 'Attack'
+        self.coord = 'Defend'
         self.coord_enemies = {'Witch': [850, 185, pg.transform.flip(SelectMenu(self.game).char.catalog['Witch'], True, False), Witch], 'Skeleton': [850, 350, pg.transform.flip(SelectMenu(self.game).char.catalog['Skeleton'], True, False), Skeleton]}
     
-    def display_cursor(self, position):
+    def display_cursor(self, coord):
         self.positions = {'Attack' : [45, 700], 'Defend' : [260, 700]}
         
-        self.imgx, self.imgy = self.positions[position][0] + 50, self.positions[position][1] - 50  # as coordenadas do cursor sao baseadas nas dos personagens
+        self.imgx, self.imgy = self.positions[coord][0] + 50, self.positions[coord][1] - 50  # as coordenadas do cursor sao baseadas nas dos personagens
         img_rect = self.cursor.get_rect()
         img_rect.center = (self.imgx, self.imgy)  # coordenadas do cursor
         self.game.display.blit(pg.transform.rotate(self.cursor, 90), img_rect)
     
     def move_cursor(self):
+        self.display_cursor(self.coord)
         if self.game.RIGHT_KEY:
-            if self.position == 'Attack':
-                self.position = 'Defend'
-                self.display_cursor(self.position)
-            
-            elif self.position == 'Defend':
-                self.position = 'Attack'
-                self.display_cursor(self.position)
-        
-        # elif self.game.LEFT_KEY:
-        #     if self.position == 'Attack':
-        #         self.position = 'defend'
-        #         self.display_cursor(self.position)
+            if self.coord == 'Attack':
+                self.coord = 'Defend'
+                    
+        elif self.game.LEFT_KEY:
+            if self.coord == 'Defend':
+                self.coord = 'Attack'
     
     def check_input(self):
         self.move_cursor()
         if self.game.z_KEY:
-            if self.position == 'Attack':
-                pass # <- aqui deve ser inserido o metodo attack_enemy da classe character, apos p usuario selecionar quem ele deseja atacar
+            if self.coord == 'Attack':
+                pass # <- aqui deve ser inserido o metodo attack_enemy da classe character, apos o usuario selecionar quem ele deseja atacar
 
-            elif self.position == 'Defend':
+            elif self.coord == 'Defend':
                 pass
 
     def show_hp(self):  # exibindo os pontos de vida de cada personagem
@@ -56,6 +51,8 @@ class Battle(SelectMenu):
 
     def display_scenery(self):
         if self.running:
+            self.check_input()
+            
             self.game.check_events()
 
             self.game.display.fill(self.game.BLACK)
@@ -73,16 +70,15 @@ class Battle(SelectMenu):
 
             if self.turn == 'Player':
                 Turn.hero_turn(self)
-
                 self.show_hp()
-                self.check_input()
+                self.move_cursor()
 
             # enemies
             Character().blit_character(self.coord_enemies['Witch'][0], self.coord_enemies['Witch'][1], self.coord_enemies['Witch'][2], self.game.display)
             Character().blit_character(self.coord_enemies['Skeleton'][0], self.coord_enemies['Skeleton'][1], self.coord_enemies['Skeleton'][2], self.game.display)
 
-            self.game.main_menu.blit_screen()
-            # self.game.reset_keys()
+            self.game.main_menu.blit_screen()    
+            self.game.reset_keys()
 
 class Turn(Battle):
     def __init__(self):
