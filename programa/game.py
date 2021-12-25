@@ -9,7 +9,7 @@ class Game():
         pg.init()
         self.running, self.playing = True, False  
 
-        self.z_KEY, self.x_KEY, self.RIGHT_KEY, self.LEFT_KEY = False, False, False, False  # definindo o valor 'default' das teclas que serao usadas
+        self.z_KEY, self.x_KEY, self.RIGHT_KEY, self.LEFT_KEY, self.UP_KEY, self.DOWN_KEY = False, False, False, False, False, False  # definindo o valor 'default' das teclas que serao usadas
         self.DISPLAY_W, self.DISPLAY_H = 1024, 768  # dimensoes da tela 
         self.display = pg.Surface((self.DISPLAY_W, self.DISPLAY_H))
         self.window = pg.display.set_mode((self.DISPLAY_W, self.DISPLAY_H))
@@ -59,9 +59,13 @@ class Game():
                     self.RIGHT_KEY = True
                 if event.key == pg.K_LEFT:
                     self.LEFT_KEY = True
+                if event.key == pg.K_UP:
+                    self.UP_KEY = True
+                if event.key == pg.K_DOWN:
+                    self.DOWN_KEY = True
 
     def reset_keys(self):
-        self.z_KEY, self.x_KEY, self.RIGHT_KEY, self.LEFT_KEY = False, False, False, False
+        self.z_KEY, self.x_KEY, self.RIGHT_KEY, self.LEFT_KEY, self.UP_KEY, self.DOWN_KEY = False, False, False, False, False, False
 
     def draw_text(self, text, size, x, y, color):
         font = pg.font.Font(self.font_name, size)

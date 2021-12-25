@@ -23,7 +23,7 @@ class Battle(SelectMenu):
         img_rect.center = (self.imgx, self.imgy)  # coordenadas do cursor
         self.game.display.blit(pg.transform.rotate(self.cursor, 90), img_rect)
     
-    def move_cursor(self):
+    def move_cursor(self):  # move o cursor de acordo com as acoes do usuario
         self.display_cursor(self.coord)
         if self.game.RIGHT_KEY:
             if self.coord == 'Attack':
@@ -33,7 +33,7 @@ class Battle(SelectMenu):
             if self.coord == 'Defend':
                 self.coord = 'Attack'
     
-    def check_input(self):
+    def check_input(self):  # verificando as acoes do jogador
         self.move_cursor()
         if self.game.z_KEY:
             if self.coord == 'Attack':
@@ -65,13 +65,8 @@ class Battle(SelectMenu):
             Character().blit_character(90, 255, self.char.catalog[crew[1].__class__.__name__], self.game.display)
             Character().blit_character(50, 350, self.char.catalog[crew[2].__class__.__name__], self.game.display)
 
-            self.game.draw_text('Attack', 35, 175, 650, self.game.BLACK)
-            self.game.draw_text('Defend', 35, 390, 650, self.game.BLACK)
-
             if self.turn == 'Player':
                 Turn.hero_turn(self)
-                self.show_hp()
-                self.move_cursor()
 
             # enemies
             Character().blit_character(self.coord_enemies['Witch'][0], self.coord_enemies['Witch'][1], self.coord_enemies['Witch'][2], self.game.display)
@@ -87,7 +82,7 @@ class Turn(Battle):
     def hero_turn(self):
         if self.turn == 'Player':
 
-            self.crew_speed = [int(x.show_speed()) for x in crew]
+            self.crew_speed = [int(x.show_speed()) for x in crew]  # armazena a velocidade de cada integrante da equipe em uma lista
             self.max_speed = max(self.crew_speed)
 
             self.playing = ''
@@ -96,6 +91,19 @@ class Turn(Battle):
                     self.playing = crew[count].__class__.__name__
 
             self.game.draw_text(f"{self.playing}'s turn!", 40, 175, 560, self.game.BLACK)
+            self.game.draw_text('Attack', 35, 175, 650, self.game.BLACK)
+            self.game.draw_text('Defend', 35, 390, 650, self.game.BLACK)
+            self.move_cursor()
+            self.show_hp()
 
+    def select_enemy(self):
+        self.fliped_cursor = pg.transform.scale(pg.image.load('UI/introcomp_seta(resized).png'), (25, 25))
+
+        self.enemy = 'Skeleton'
+        if self.coord == 'Attack':
+            if self.game.UP_KEY:
+                self.coord = 'Skeleton'
+                self.display_cursor()
+        
     def enemy_turn(self):
         pass
