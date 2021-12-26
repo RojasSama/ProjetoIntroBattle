@@ -16,7 +16,7 @@ class Battle(SelectMenu):
         self.coord_enemies = {'Witch': [850, 185, pg.transform.flip(SelectMenu(self.game).char.catalog['Witch'], True, False), Witch], 'Skeleton': [850, 350, pg.transform.flip(SelectMenu(self.game).char.catalog['Skeleton'], True, False), Skeleton]}
     
     def display_cursor(self, coord):
-        self.positions = {'Attack' : [45, 700], 'Defend' : [260, 700]}
+        self.positions = {'Attack': [45, 700], 'Defend': [260, 700], 'Witch': [850, 160], 'Skeleton': [850, 325]}
         
         self.imgx, self.imgy = self.positions[coord][0] + 50, self.positions[coord][1] - 50  # as coordenadas do cursor sao baseadas nas dos personagens
         img_rect = self.cursor.get_rect()
@@ -67,6 +67,7 @@ class Battle(SelectMenu):
 
             if self.turn == 'Player':
                 Turn.hero_turn(self)
+                Turn.select_enemy(self)
 
             # enemies
             Character().blit_character(self.coord_enemies['Witch'][0], self.coord_enemies['Witch'][1], self.coord_enemies['Witch'][2], self.game.display)
@@ -75,35 +76,48 @@ class Battle(SelectMenu):
             self.game.main_menu.blit_screen()    
             self.game.reset_keys()
 
-class Turn(Battle):
+class Turn():
     def __init__(self):
-        Battle.__init__(self)
+        self.enemy = 'Skeleton'
         
     def hero_turn(self):
+        self.count_turn = 0
         if self.turn == 'Player':
+            
+            if self.count_turn == 0:
+                self.crew_speed = [int(x.show_speed()) for x in crew]  # armazena a velocidade de cada integrante da equipe em uma lista
+                self.max_speed = max(self.crew_speed)
 
-            self.crew_speed = [int(x.show_speed()) for x in crew]  # armazena a velocidade de cada integrante da equipe em uma lista
-            self.max_speed = max(self.crew_speed)
+                self.playing = ['', '']
+                for count, speed in enumerate(self.crew_speed):
+                    if speed == self.max_speed:
+                        self.playing[0] = crew[count].__class__.__name__
+                        self.playing[1] = count 
 
-            self.playing = ''
-            for count, speed in enumerate(self.crew_speed):
-                if speed == self.max_speed:
-                    self.playing = crew[count].__class__.__name__
-
-            self.game.draw_text(f"{self.playing}'s turn!", 40, 175, 560, self.game.BLACK)
+            self.game.draw_text(f"{self.playing[0]}'s turn!", 40, 175, 560, self.game.BLACK)
             self.game.draw_text('Attack', 35, 175, 650, self.game.BLACK)
             self.game.draw_text('Defend', 35, 390, 650, self.game.BLACK)
             self.move_cursor()
             self.show_hp()
 
+    def enemy_turn(self):
+        pass
+
+    def next_turn(self):
+        pass
+    
     def select_enemy(self):
         self.fliped_cursor = pg.transform.scale(pg.image.load('UI/introcomp_seta(resized).png'), (25, 25))
 
-        self.enemy = 'Skeleton'
         if self.coord == 'Attack':
+            self.display_cursor(self.coord)
             if self.game.UP_KEY:
+                self.coord = 'Witch'
+            
+            elif self.game.DOWN_KEY:
                 self.coord = 'Skeleton'
-                self.display_cursor()
-        
-    def enemy_turn(self):
-        pass
+            
+        elif self.coord == 'Defend':  # caso o jogado selecione a opcao de defender, na proxima rodada o personagem estara defendendo
+            crew[self.playing[1]].defend = True
+            self.count_turn += 1
+            
