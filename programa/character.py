@@ -28,8 +28,8 @@ class Character():
             damage = (self.attack * 50) // 50 + (enemy.df * 2)
             enemy.hp += damage
 
-    def defend(self, damage):
-        self.health += damage
+    def defend(self):
+        self.defending = True
 
     def verifies_defeat(self):
         if self.health == 0:

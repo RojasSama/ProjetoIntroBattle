@@ -146,7 +146,8 @@ class SelectMenu(Menu):
                 self.draw_cursor(self.position)
 
     def display_menu(self):
-        # self.run_display = True
+        if not self.game.battle_system.running:
+            self.run_display = True
         if self.run_display:
             self.check_input()
             self.game.display.fill(self.game.BLACK)

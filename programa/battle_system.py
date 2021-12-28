@@ -92,13 +92,15 @@ class Turn():
                 self.crew_speed = [int(x.show_speed()) for x in crew]  # armazena a velocidade de cada integrante da equipe em uma lista
                 self.max_speed = max(self.crew_speed)
 
-                self.playing = ['', '']
+                self.playing = ['', 0]
                 for count, speed in enumerate(self.crew_speed):
                     if speed == self.max_speed:
                         self.playing[0] = crew[count].__class__.__name__
-                        self.playing[1] = count 
+                        self.playing[1] = int(count) 
 
-            self.game.draw_text(f"{self.playing[0]}'s turn!", 40, 175, 560, self.game.BLACK)
+                self.game.draw_text(f"{self.playing[0]}'s turn!", 40, 175, 560, self.game.BLACK)
+            else:
+                self.game.draw_text(f"{self.battle.crew[randint(0, len(crew)-1)]}'s turn!", 40, 175, 560, self.game.BLACK)    
             self.game.draw_text('Attack', 35, 175, 650, self.game.BLACK)
             self.game.draw_text('Defend', 35, 390, 650, self.game.BLACK)
             self.battle.move_cursor()
@@ -146,5 +148,5 @@ class Turn():
         
         elif self.coord == 'Defend':
             if self.game.z_KEY:
-                crew[self.playing[1]].defending = True
+                # crew[self.playing[1]].defend()
                 self.next_turn()
