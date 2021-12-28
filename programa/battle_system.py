@@ -1,6 +1,7 @@
 import pygame as pg
 from game import *
 from character import *
+from random import randint
 
 class Battle(SelectMenu):
     def __init__(self, game):
@@ -13,6 +14,7 @@ class Battle(SelectMenu):
         self.cursor = pg.transform.scale(pg.image.load('UI/introcomp_seta(resized).png'), (25, 25))
         self.turn = 'Player'
         self.coord = 'Defend'
+        self.shift = Turn(self.game, self)
         self.coord_enemies = {'Witch': [850, 185, pg.transform.flip(SelectMenu(self.game).char.catalog['Witch'], True, False), Witch], 'Skeleton': [850, 350, pg.transform.flip(SelectMenu(self.game).char.catalog['Skeleton'], True, False), Skeleton]}
     
     def display_cursor(self, coord):
@@ -35,12 +37,7 @@ class Battle(SelectMenu):
     
     def check_input(self):  # verificando as acoes do jogador
         self.move_cursor()
-        if self.game.z_KEY:
-            if self.coord == 'Attack':
-                pass # <- aqui deve ser inserido o metodo attack_enemy da classe character, apos o usuario selecionar quem ele deseja atacar
-
-            elif self.coord == 'Defend':
-                pass
+        Turn.check_input(self)
 
     def show_hp(self):  # exibindo os pontos de vida de cada personagem
         self.health_points = [crew[0].show_hp(), crew[1].show_hp(), crew[2].show_hp()]  # pontos de vida iniciais dos personagens
@@ -61,13 +58,17 @@ class Battle(SelectMenu):
             self.game.display.blit(self.ui_2, (660, 510))
 
             # heroes
-            Character().blit_character(50, 185, self.char.catalog[crew[0].__class__.__name__], self.game.display)
-            Character().blit_character(90, 255, self.char.catalog[crew[1].__class__.__name__], self.game.display)
-            Character().blit_character(50, 350, self.char.catalog[crew[2].__class__.__name__], self.game.display)
+            if (crew[0].verifies_defeat()):
+                crew[0].blit_character(50, 185, self.char.catalog[crew[0].__class__.__name__], self.game.display)
+
+            if (crew[1].verifies_defeat()):
+                crew[0].blit_character(90, 255, self.char.catalog[crew[1].__class__.__name__], self.game.display)
+
+            if (crew[2].verifies_defeat()):
+                crew[0].blit_character(50, 350, self.char.catalog[crew[2].__class__.__name__], self.game.display)
 
             if self.turn == 'Player':
-                Turn.hero_turn(self)
-                Turn.select_enemy(self)
+                self.shift.hero_turn()
 
             # enemies
             Character().blit_character(self.coord_enemies['Witch'][0], self.coord_enemies['Witch'][1], self.coord_enemies['Witch'][2], self.game.display)
@@ -77,12 +78,15 @@ class Battle(SelectMenu):
             self.game.reset_keys()
 
 class Turn():
-    def __init__(self):
+    def __init__(self, game, battle):
+        self.game = game
+        self.battle = battle
         self.enemy = 'Skeleton'
+        self.choosing_enemy = False
         
     def hero_turn(self):
         self.count_turn = 0
-        if self.turn == 'Player':
+        if self.battle.turn == 'Player':
             
             if self.count_turn == 0:
                 self.crew_speed = [int(x.show_speed()) for x in crew]  # armazena a velocidade de cada integrante da equipe em uma lista
@@ -97,27 +101,50 @@ class Turn():
             self.game.draw_text(f"{self.playing[0]}'s turn!", 40, 175, 560, self.game.BLACK)
             self.game.draw_text('Attack', 35, 175, 650, self.game.BLACK)
             self.game.draw_text('Defend', 35, 390, 650, self.game.BLACK)
-            self.move_cursor()
-            self.show_hp()
+            self.battle.move_cursor()
+            self.battle.show_hp()
+        self.next_turn()
 
     def enemy_turn(self):
-        pass
+        '''if self.count_turn % 2 == 0:
+            self.battle.coord['Witch'][3].attack_enemy(randint(0, len(crew) - 1))
+        else:
+            self.battle.coord['Skeleton'][3].attack_enemy(randint(0, len(crew) - 1))'''
 
     def next_turn(self):
-        pass
+        self.count_turn += 1
+        self.enemy_turn()
     
     def select_enemy(self):
-        self.fliped_cursor = pg.transform.scale(pg.image.load('UI/introcomp_seta(resized).png'), (25, 25))
+        self.choosing_enemy = True
 
+        if self.choosing_enemy:
+            self.fliped_cursor = pg.transform.scale(pg.image.load('UI/introcomp_seta(resized).png'), (25, 25))
+
+            if self.coord == 'Attack':
+                self.display_cursor(self.coord)
+                if self.game.UP_KEY:
+                    self.coord = 'Witch'
+                
+                elif self.game.DOWN_KEY:
+                    self.coord = 'Skeleton'
+                
+            elif self.coord == 'Defend':  # caso o jogado selecione a opcao de defender, na proxima rodada o personagem estara defendendo
+                crew[self.playing[1]].defend = True
+                self.count_turn += 1
+
+    def check_input(self):
         if self.coord == 'Attack':
-            self.display_cursor(self.coord)
-            if self.game.UP_KEY:
-                self.coord = 'Witch'
-            
-            elif self.game.DOWN_KEY:
-                self.coord = 'Skeleton'
-            
-        elif self.coord == 'Defend':  # caso o jogado selecione a opcao de defender, na proxima rodada o personagem estara defendendo
-            crew[self.playing[1]].defend = True
-            self.count_turn += 1
-            
+            if self.game.z_KEY:
+                if self.coord == 'Skeleton':
+                    crew[self.playing[1]].attack_enemy(self.coord_enemies['Skeleton'][3])
+                    self.next_turn()
+                
+                elif self.coord == 'Witch':
+                    crew[self.playing[1]].attack_enemy(self.coord_enemies['Witch'][3])
+                    self.next_turn()
+        
+        elif self.coord == 'Defend':
+            if self.game.z_KEY:
+                crew[self.playing[1]].defending = True
+                self.next_turn()

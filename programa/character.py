@@ -10,6 +10,7 @@ class Character():
         spd : character speed,
     '''
     def __init__(self):  # standard atributes
+        self.defending = False
         self.ui_bg = pg.transform.scale(pg.image.load('UI/introcomp_menu(resized).png'), (150, 150))
         self.shadow = pg.image.load('UI/introcomp_character.png')
         self.catalog = {  # catalogo de sprites dos personagens
@@ -23,8 +24,9 @@ class Character():
         }
 
     def attack_enemy(self, enemy):
-        damage = (self.attack * 50) // 50 + (enemy.df * 2)
-        enemy.hp += damage
+        if not self.defending:
+            damage = (self.attack * 50) // 50 + (enemy.df * 2)
+            enemy.hp += damage
 
     def defend(self, damage):
         self.health += damage
@@ -32,6 +34,7 @@ class Character():
     def verifies_defeat(self):
         if self.health == 0:
             self.defeat = True
+        return True
     
     def blit_character(self, x, y, img, screen):
         screen.blit(img, (x, y))
@@ -51,6 +54,7 @@ class Character():
 class Wizard(Character):
     def __init__(self):
         Character.__init__(self)
+        self.defending = False
         self.health = 80
         self.attack = 8
         self.defense = 5
@@ -60,6 +64,7 @@ class Wizard(Character):
 class Witch(Character):
     def __init__(self):
         Character.__init__(self)
+        self.defending = False
         self.health = 75
         self.attack = 9
         self.defense = 4
@@ -69,6 +74,7 @@ class Witch(Character):
 class Rogue(Character):
     def __init__(self):
         Character.__init__(self)
+        self.defending = False
         self.health = 85
         self.attack = 10
         self.defense = 2
@@ -78,6 +84,7 @@ class Rogue(Character):
 class Skeleton(Character):
     def __init__(self):
         Character.__init__(self)
+        self.defending = False
         self.health = 70
         self.attack = 11
         self.defense = 6
@@ -87,6 +94,7 @@ class Skeleton(Character):
 class Priest(Character):
     def __init__(self):
         Character.__init__(self)
+        self.defending = False
         self.health = 80    
         self.attack = 7
         self.defense = 8
@@ -96,6 +104,7 @@ class Priest(Character):
 class Paladin(Character):
     def __init__(self):
         Character.__init__(self)
+        self.defending = False
         self.health = 90
         self.attack = 5
         self.defense = 6
@@ -105,6 +114,7 @@ class Paladin(Character):
 class Hunter(Character):
     def __init__(self):
         Character.__init__(self)
+        self.defending = False
         self.health = 85
         self.attack = 6
         self.defense = 3
