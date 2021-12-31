@@ -11,6 +11,7 @@ class Character():
     '''
     def __init__(self):  # standard atributes
         self.defending = False
+        self.defeat = False
         self.ui_bg = pg.transform.scale(pg.image.load('UI/introcomp_menu(resized).png'), (150, 150))
         self.shadow = pg.image.load('UI/introcomp_character.png')
         self.catalog = {  # catalogo de sprites dos personagens
@@ -25,8 +26,8 @@ class Character():
 
     def attack_enemy(self, enemy):
         if not self.defending:
-            damage = (self.attack * 50) // 50 + (enemy.df * 2)
-            enemy.hp += damage
+            damage = (self.show_attack() * 50) // 50 + (enemy().health * 2)
+            enemy().health += damage
 
     def defend(self):
         self.defending = True
@@ -37,7 +38,8 @@ class Character():
         return True
     
     def blit_character(self, x, y, img, screen):
-        screen.blit(img, (x, y))
+        if not (self.defeat):
+            screen.blit(img, (x, y))
     
     def show_hp(self):
         return self.health

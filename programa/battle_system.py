@@ -37,7 +37,7 @@ class Battle(SelectMenu):
     
     def check_input(self):  # verificando as acoes do jogador
         self.move_cursor()
-        Turn.check_input(self)
+        self.shift.check_input()
 
     def show_hp(self):  # exibindo os pontos de vida de cada personagem
         self.health_points = [crew[0].show_hp(), crew[1].show_hp(), crew[2].show_hp()]  # pontos de vida iniciais dos personagens
@@ -58,21 +58,21 @@ class Battle(SelectMenu):
             self.game.display.blit(self.ui_2, (660, 510))
 
             # heroes
-            if (crew[0].verifies_defeat()):
-                crew[0].blit_character(50, 185, self.char.catalog[crew[0].__class__.__name__], self.game.display)
+            # if (crew[0].verifies_defeat()):
+            crew[0].blit_character(50, 185, self.char.catalog[crew[0].__class__.__name__], self.game.display)
 
-            if (crew[1].verifies_defeat()):
-                crew[0].blit_character(90, 255, self.char.catalog[crew[1].__class__.__name__], self.game.display)
+            # if (crew[1].verifies_defeat()):
+            crew[0].blit_character(90, 255, self.char.catalog[crew[1].__class__.__name__], self.game.display)
 
-            if (crew[2].verifies_defeat()):
-                crew[0].blit_character(50, 350, self.char.catalog[crew[2].__class__.__name__], self.game.display)
+            # if (crew[2].verifies_defeat()):
+            crew[0].blit_character(50, 350, self.char.catalog[crew[2].__class__.__name__], self.game.display)
 
             if self.turn == 'Player':
                 self.shift.hero_turn()
 
             # enemies
-            Character().blit_character(self.coord_enemies['Witch'][0], self.coord_enemies['Witch'][1], self.coord_enemies['Witch'][2], self.game.display)
-            Character().blit_character(self.coord_enemies['Skeleton'][0], self.coord_enemies['Skeleton'][1], self.coord_enemies['Skeleton'][2], self.game.display)
+            Witch().blit_character(self.coord_enemies['Witch'][0], self.coord_enemies['Witch'][1], self.coord_enemies['Witch'][2], self.game.display)
+            Skeleton().blit_character(self.coord_enemies['Skeleton'][0], self.coord_enemies['Skeleton'][1], self.coord_enemies['Skeleton'][2], self.game.display)
 
             self.game.main_menu.blit_screen()    
             self.game.reset_keys()
@@ -118,35 +118,40 @@ class Turn():
         self.enemy_turn()
     
     def select_enemy(self):
+
         self.choosing_enemy = True
 
         if self.choosing_enemy:
             self.fliped_cursor = pg.transform.scale(pg.image.load('UI/introcomp_seta(resized).png'), (25, 25))
 
-            if self.coord == 'Attack':
-                self.display_cursor(self.coord)
+            if self.battle.coord == 'Attack':
+                self.battle.display_cursor(self.battle.coord)
                 if self.game.UP_KEY:
                     self.coord = 'Witch'
-                
+
                 elif self.game.DOWN_KEY:
                     self.coord = 'Skeleton'
-                
-            elif self.coord == 'Defend':  # caso o jogado selecione a opcao de defender, na proxima rodada o personagem estara defendendo
+
+            elif self.battle.coord == 'Defend':  # caso o jogado selecione a opcao de defender, na proxima rodada o personagem estara defendendo
                 crew[self.playing[1]].defend = True
                 self.count_turn += 1
 
     def check_input(self):
-        if self.coord == 'Attack':
+        if self.battle.coord == 'Attack':
             if self.game.z_KEY:
-                if self.coord == 'Skeleton':
-                    crew[self.playing[1]].attack_enemy(self.coord_enemies['Skeleton'][3])
+                self.select_enemy()
+                if self.enemy == 'Skeleton':
+                    crew[self.playing[1]].attack_enemy(self.battle.coord_enemies['Skeleton'][3])
                     self.next_turn()
                 
-                elif self.coord == 'Witch':
+                elif self.enemy == 'Witch':
                     crew[self.playing[1]].attack_enemy(self.coord_enemies['Witch'][3])
                     self.next_turn()
         
-        elif self.coord == 'Defend':
+        elif self.battle.coord == 'Defend':
             if self.game.z_KEY:
-                # crew[self.playing[1]].defend()
+                crew[self.playing[1]].defend()
                 self.next_turn()
+
+                for i in crew:
+                    print(i.defending, end='  ')
