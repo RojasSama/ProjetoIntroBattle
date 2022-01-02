@@ -184,19 +184,19 @@ class SelectMenu(Menu):
         self.move_cursor()
         if self.game.z_KEY:
             if self.position == 'Priest':
-                self.select_team(Priest())
+                self.select_team(Priest)
             
             elif self.position == 'Paladin':
-                self.select_team(Paladin())
+                self.select_team(Paladin)
 
             elif self.position == 'Hunter':
-                self.select_team(Hunter())
+                self.select_team(Hunter)
 
             elif self.position == 'Wizard':
-                self.select_team(Wizard())
+                self.select_team(Wizard)
 
             elif self.position == 'Rogue':
-                self.select_team(Rogue())
+                self.select_team(Rogue)
 
         elif self.game.x_KEY:
             self.choosing, self.running, self.run_display = False, False, False

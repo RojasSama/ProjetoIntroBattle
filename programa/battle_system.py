@@ -40,11 +40,11 @@ class Battle(SelectMenu):
         self.shift.check_input()
 
     def show_hp(self):  # exibindo os pontos de vida de cada personagem
-        self.health_points = [crew[0].show_hp(), crew[1].show_hp(), crew[2].show_hp()]  # pontos de vida iniciais dos personagens
+        self.health_points = [crew[0]().show_hp(), crew[1]().show_hp(), crew[2]().show_hp()]  # pontos de vida iniciais dos personagens
 
-        self.game.draw_text(f'{crew[0].__class__.__name__}  - {crew[0].show_hp()} / {self.health_points[0]}', 35, 850, 550, self.game.BLACK)
-        self.game.draw_text(f'{crew[1].__class__.__name__} - {crew[1].show_hp()} / {self.health_points[1]}', 35, 850, 600, self.game.BLACK)
-        self.game.draw_text(f'{crew[2].__class__.__name__} - {crew[2].show_hp()} / {self.health_points[2]}', 35, 850, 650, self.game.BLACK)
+        self.game.draw_text(f'{crew[0].__name__}  - {crew[0]().show_hp()} / {self.health_points[0]}', 35, 850, 550, self.game.BLACK)
+        self.game.draw_text(f'{crew[1].__name__} - {crew[1]().show_hp()} / {self.health_points[1]}', 35, 850, 600, self.game.BLACK)
+        self.game.draw_text(f'{crew[2].__name__} - {crew[2]().show_hp()} / {self.health_points[2]}', 35, 850, 650, self.game.BLACK)
 
     def display_scenery(self):
         if self.running:
@@ -59,13 +59,13 @@ class Battle(SelectMenu):
 
             # heroes
             # if (crew[0].verifies_defeat()):
-            crew[0].blit_character(50, 185, self.char.catalog[crew[0].__class__.__name__], self.game.display)
+            crew[0]().blit_character(50, 185, self.char.catalog[crew[0].__name__], self.game.display)
 
             # if (crew[1].verifies_defeat()):
-            crew[0].blit_character(90, 255, self.char.catalog[crew[1].__class__.__name__], self.game.display)
+            crew[0]().blit_character(90, 255, self.char.catalog[crew[1].__name__], self.game.display)
 
             # if (crew[2].verifies_defeat()):
-            crew[0].blit_character(50, 350, self.char.catalog[crew[2].__class__.__name__], self.game.display)
+            crew[0]().blit_character(50, 350, self.char.catalog[crew[2].__name__], self.game.display)
 
             if self.turn == 'Player':
                 self.shift.hero_turn()
@@ -83,13 +83,16 @@ class Turn():
         self.battle = battle
         self.enemy = 'Skeleton'
         self.choosing_enemy = False
+        self.count_turn = 0
+        self.random = randint(0, len(crew))
+        if self.random > len(crew):
+            self.random = len(crew) - 1
         
     def hero_turn(self):
-        self.count_turn = 0
         if self.battle.turn == 'Player':
             
             if self.count_turn == 0:
-                self.crew_speed = [int(x.show_speed()) for x in crew]  # armazena a velocidade de cada integrante da equipe em uma lista
+                self.crew_speed = [int(x().show_speed()) for x in crew]  # armazena a velocidade de cada integrante da equipe em uma lista
                 self.max_speed = max(self.crew_speed)
 
                 self.playing = ['', 0]
@@ -100,7 +103,7 @@ class Turn():
 
                 self.game.draw_text(f"{self.playing[0]}'s turn!", 40, 175, 560, self.game.BLACK)
             else:
-                self.game.draw_text(f"{self.battle.crew[randint(0, len(crew)-1)]}'s turn!", 40, 175, 560, self.game.BLACK)    
+                self.game.draw_text(f"{crew[self.random]}'s turn!", 40, 175, 560, self.game.BLACK)    
             self.game.draw_text('Attack', 35, 175, 650, self.game.BLACK)
             self.game.draw_text('Defend', 35, 390, 650, self.game.BLACK)
             self.battle.move_cursor()
@@ -108,15 +111,20 @@ class Turn():
         self.next_turn()
 
     def enemy_turn(self):
-        '''if self.count_turn % 2 == 0:
-            self.battle.coord['Witch'][3].attack_enemy(randint(0, len(crew) - 1))
+        if self.count_turn % 2 == 0:
+            self.battle.coord_enemies['Witch'][3].attack_enemy(self, crew[self.playing[1]])
         else:
-            self.battle.coord['Skeleton'][3].attack_enemy(randint(0, len(crew) - 1))'''
+            self.battle.coord_enemies['Skeleton'][3].attack_enemy(self, crew[self.playing[1]])
 
     def next_turn(self):
         self.count_turn += 1
-        self.enemy_turn()
-    
+
+        if self.count_turn % 2 == 0:
+            self.hero_turn()
+
+        else:
+            self.enemy_turn()
+
     def select_enemy(self):
 
         self.choosing_enemy = True
