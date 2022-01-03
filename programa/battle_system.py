@@ -68,7 +68,8 @@ class Battle(SelectMenu):
             crew[0]().blit_character(50, 350, self.char.catalog[crew[2].__name__], self.game.display)
 
             if self.turn == 'Player':
-                self.shift.hero_turn()
+                self.shift.hero_turn()  # --> apresentando problemas, n aguento mais...
+                pass
 
             # enemies
             Witch().blit_character(self.coord_enemies['Witch'][0], self.coord_enemies['Witch'][1], self.coord_enemies['Witch'][2], self.game.display)
@@ -112,11 +113,11 @@ class Turn():
 
     def enemy_turn(self):
         if self.count_turn % 2 == 0:
-            self.battle.coord_enemies['Witch'][3].attack_enemy(self, crew[self.playing[1]])
+            self.battle.coord_enemies['Witch'][3].attack_enemy(self.battle.coord_enemies['Witch'][3], crew[self.playing[1]])
         else:
-            self.battle.coord_enemies['Skeleton'][3].attack_enemy(self, crew[self.playing[1]])
+            self.battle.coord_enemies['Skeleton'][3].attack_enemy(self.battle.coord_enemies['Skeleton'][3], crew[self.playing[1]])
 
-    def next_turn(self):
+    def next_turn(self):  # erros e mais erros neste metodo
         self.count_turn += 1
 
         if self.count_turn % 2 == 0:
@@ -149,17 +150,22 @@ class Turn():
             if self.game.z_KEY:
                 self.select_enemy()
                 if self.enemy == 'Skeleton':
-                    crew[self.playing[1]].attack_enemy(self.battle.coord_enemies['Skeleton'][3])
-                    self.next_turn()
+                    # crew[self.playing[1]].attack_enemy(self.battle.coord_enemies['Skeleton'][3])
+                    # self.next_turn()
+                    pass
                 
                 elif self.enemy == 'Witch':
-                    crew[self.playing[1]].attack_enemy(self.coord_enemies['Witch'][3])
-                    self.next_turn()
+                    # crewself.playing[1]].attack_enemy(self.battle.coord_enemies['Witch'][3])
+                    # self.next_turn()
+                    pass
         
         elif self.battle.coord == 'Defend':
             if self.game.z_KEY:
                 crew[self.playing[1]].defend()
-                self.next_turn()
+                # self.next_turn()
 
                 for i in crew:
                     print(i.defending, end='  ')
+                
+                for i in [self.battle.coord_enemies['Skeleton'][3].health, self.battle.coord_enemies['Witch'][3].health]: 
+                    print(i)
