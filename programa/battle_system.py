@@ -47,6 +47,9 @@ class Battle(SelectMenu):
         self.game.draw_text(f'{crew[2].__name__} - {crew[2]().show_hp()} / {self.health_points[2]}', 35, 850, 650, self.game.BLACK)
 
     def display_scenery(self):
+        # if self.display_results():
+        #         self.running = False
+
         if self.running:
             self.check_input()
             
@@ -77,7 +80,32 @@ class Battle(SelectMenu):
 
             self.game.main_menu.blit_screen()    
             self.game.reset_keys()
+        
+    def display_results(self):
+        count_1, count_2 = 0, 0
+        for i in crew:
+            i.verifies_defeat(self)
+            if i.defeat == True:
+                count_1 += 1
 
+        for i in (self.coord_enemies['Witch'][3], self.coord_enemies['Skeleton'][3]):
+            i.verifies_defeat(self)
+            if i.defeat == True:
+                count_2 += 1
+
+        if count_1 == 2:
+            self.game.display.fill(self.game.BLACK)
+            self.game.display.blit(self.bg_img, (0, 0))
+            self.game.draw_text('YOU LOSE ;w;', 45, 512, 382, self.game.WHITE)
+            return True
+        
+        elif count_2 == 2:
+            self.game.display.fill(self.game.BLACK)
+            self.game.display.blit(self.bg_img, (0, 0))
+            self.game.draw_text('YOU WIN! :D', 45, 512, 382, self.game.WHITE)
+            return True
+
+                    
 class Turn():
     def __init__(self, game, battle):
         self.game = game
@@ -155,17 +183,20 @@ class Turn():
                     pass
                 
                 elif self.enemy == 'Witch':
-                    # crewself.playing[1]].attack_enemy(self.battle.coord_enemies['Witch'][3])
+                    # crew[self.playing[1]].attack_enemy(self.battle.coord_enemies['Witch'][3])
                     # self.next_turn()
                     pass
         
         elif self.battle.coord == 'Defend':
             if self.game.z_KEY:
-                crew[self.playing[1]].defend()
-                # self.next_turn()
+                crew[self.playing[1]].defend(self)
 
                 for i in crew:
-                    print(i.defending, end='  ')
+                    print(i().defending, end='  ')
                 
-                for i in [self.battle.coord_enemies['Skeleton'][3].health, self.battle.coord_enemies['Witch'][3].health]: 
+                print()
+                
+                for i in [self.battle.coord_enemies['Skeleton'][3]().health, self.battle.coord_enemies['Witch'][3]().health]: 
                     print(i)
+                
+                # self.next_turn()

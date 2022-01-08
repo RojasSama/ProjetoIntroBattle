@@ -25,7 +25,7 @@ class Character():
         }
 
     def attack_enemy(self, enemy):
-        damage = (self().show_attack() * 50) // 50 + (enemy.show_hp(self) * 2)
+        damage = (self().show_attack() * 50) // 50 + (enemy().health * 2)
         enemy().health += damage
 
     def defend(self):
