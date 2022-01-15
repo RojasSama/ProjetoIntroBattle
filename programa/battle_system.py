@@ -15,7 +15,8 @@ class Battle(SelectMenu):
         self.turn = 'Player'
         self.coord = 'Defend'
         self.shift = Turn(self.game, self)
-        self.coord_enemies = {'Witch': [850, 185, pg.transform.flip(SelectMenu(self.game).char.catalog['Witch'], True, False), Witch], 'Skeleton': [850, 350, pg.transform.flip(SelectMenu(self.game).char.catalog['Skeleton'], True, False), Skeleton]}
+        self.coord_enemies = {'Witch': [850, 185, pg.transform.flip(SelectMenu(self.game).char.catalog['Witch'], True, False), Witch],
+                             'Skeleton': [850, 350, pg.transform.flip(SelectMenu(self.game).char.catalog['Skeleton'], True, False), Skeleton]}
     
     def display_cursor(self, coord):
         self.positions = {'Attack': [45, 700], 'Defend': [260, 700], 'Witch': [850, 160], 'Skeleton': [850, 325]}
@@ -47,8 +48,8 @@ class Battle(SelectMenu):
         self.game.draw_text(f'{crew[2].__name__} - {crew[2]().show_hp()} / {self.health_points[2]}', 35, 850, 650, self.game.BLACK)
 
     def display_scenery(self):
-        # if self.display_results():
-        #         self.running = False
+        '''if self.display_results():
+            self.running = False'''
 
         if self.running:
             self.check_input()
@@ -61,18 +62,19 @@ class Battle(SelectMenu):
             self.game.display.blit(self.ui_2, (660, 510))
 
             # heroes
-            # if (crew[0].verifies_defeat()):
             crew[0]().blit_character(50, 185, self.char.catalog[crew[0].__name__], self.game.display)
 
-            # if (crew[1].verifies_defeat()):
             crew[0]().blit_character(90, 255, self.char.catalog[crew[1].__name__], self.game.display)
 
-            # if (crew[2].verifies_defeat()):
             crew[0]().blit_character(50, 350, self.char.catalog[crew[2].__name__], self.game.display)
 
+            self.shift.hero_turn()
+
             if self.turn == 'Player':
-                self.shift.hero_turn()  # --> apresentando problemas, n aguento mais...
                 pass
+            
+            elif self.turn == 'Enemy':
+                self.shift.enemy_turn()  # --> apresentando problemas
 
             # enemies
             Witch().blit_character(self.coord_enemies['Witch'][0], self.coord_enemies['Witch'][1], self.coord_enemies['Witch'][2], self.game.display)
@@ -81,7 +83,7 @@ class Battle(SelectMenu):
             self.game.main_menu.blit_screen()    
             self.game.reset_keys()
         
-    def display_results(self):
+    def display_results(self):  # verifica se cada integrante da equipe do jogador ou inimigo foi derrotado e exibe os resultados
         count_1, count_2 = 0, 0
         for i in crew:
             i.verifies_defeat(self)
@@ -113,37 +115,51 @@ class Turn():
         self.enemy = 'Skeleton'
         self.choosing_enemy = False
         self.count_turn = 0
+        self.playing = ['', 0]
         self.random = randint(0, len(crew))
         if self.random > len(crew):
             self.random = len(crew) - 1
         
     def hero_turn(self):
-        if self.battle.turn == 'Player':
-            
-            if self.count_turn == 0:
-                self.crew_speed = [int(x().show_speed()) for x in crew]  # armazena a velocidade de cada integrante da equipe em uma lista
-                self.max_speed = max(self.crew_speed)
+        self.check_input()
 
-                self.playing = ['', 0]
-                for count, speed in enumerate(self.crew_speed):
-                    if speed == self.max_speed:
-                        self.playing[0] = crew[count].__class__.__name__
-                        self.playing[1] = int(count) 
+        # if self.count_turn == 0:
+        self.crew_speed = [int(x().show_speed()) for x in crew]  # armazena a velocidade de cada integrante da equipe em uma lista
+        self.max_speed = max(self.crew_speed)
 
-                self.game.draw_text(f"{self.playing[0]}'s turn!", 40, 175, 560, self.game.BLACK)
-            else:
-                self.game.draw_text(f"{crew[self.random]}'s turn!", 40, 175, 560, self.game.BLACK)    
+        
+        for count, speed in enumerate(self.crew_speed):
+            if speed == self.max_speed:
+                self.playing[0] = crew[count].__name__
+                self.playing[1] = int(count)
+
+        self.game.draw_text(f"{self.playing[0]}'s turn!", 40, 175, 560, self.game.BLACK)
+        self.game.draw_text('Attack', 35, 175, 650, self.game.BLACK)
+        self.game.draw_text('Defend', 35, 390, 650, self.game.BLACK)
+        self.battle.move_cursor()
+        self.battle.show_hp()
+
+        '''elif self.count_turn > 1:
+            self.game.draw_text(f"{crew[self.random]}'s turn!", 40, 175, 560, self.game.BLACK)    
             self.game.draw_text('Attack', 35, 175, 650, self.game.BLACK)
             self.game.draw_text('Defend', 35, 390, 650, self.game.BLACK)
             self.battle.move_cursor()
-            self.battle.show_hp()
-        self.next_turn()
+            self.battle.show_hp()'''    
 
     def enemy_turn(self):
+        '''
+        self.game.draw_text(f'Witch - {self.battle.coord_enemies["Witch"][3]().health}', 35, 850, 550, self.game.BLACK)
+        self.game.draw_text(f'Skeleton - {self.battle.coord_enemies["Skeleton"][3]().health}', 35, 850, 600, self.game.BLACK)
+
         if self.count_turn % 2 == 0:
+            self.game.draw_text(f"Witch is attacking...", 40, 275, 560, self.game.BLACK)
             self.battle.coord_enemies['Witch'][3].attack_enemy(self.battle.coord_enemies['Witch'][3], crew[self.playing[1]])
+
         else:
+            self.game.draw_text(f"Skeleton is attacking...", 40, 285, 560, self.game.BLACK)
             self.battle.coord_enemies['Skeleton'][3].attack_enemy(self.battle.coord_enemies['Skeleton'][3], crew[self.playing[1]])
+        
+        self.next_turn()'''
 
     def next_turn(self):  # erros e mais erros neste metodo
         self.count_turn += 1
@@ -153,6 +169,7 @@ class Turn():
 
         else:
             self.enemy_turn()
+
 
     def select_enemy(self):
 
@@ -168,6 +185,8 @@ class Turn():
 
                 elif self.game.DOWN_KEY:
                     self.coord = 'Skeleton'
+                
+                self.count_turn += 1
 
             elif self.battle.coord == 'Defend':  # caso o jogado selecione a opcao de defender, na proxima rodada o personagem estara defendendo
                 crew[self.playing[1]].defend = True
@@ -178,14 +197,12 @@ class Turn():
             if self.game.z_KEY:
                 self.select_enemy()
                 if self.enemy == 'Skeleton':
-                    # crew[self.playing[1]].attack_enemy(self.battle.coord_enemies['Skeleton'][3])
-                    # self.next_turn()
-                    pass
+                    crew[self.playing[1]].attack_enemy(self.battle.coord_enemies['Skeleton'][3])
                 
                 elif self.enemy == 'Witch':
-                    # crew[self.playing[1]].attack_enemy(self.battle.coord_enemies['Witch'][3])
-                    # self.next_turn()
-                    pass
+                    crew[self.playing[1]].attack_enemy(self.battle.coord_enemies['Witch'][3])
+            
+                self.next_turn()
         
         elif self.battle.coord == 'Defend':
             if self.game.z_KEY:
@@ -197,6 +214,9 @@ class Turn():
                 print()
                 
                 for i in [self.battle.coord_enemies['Skeleton'][3]().health, self.battle.coord_enemies['Witch'][3]().health]: 
-                    print(i)
+                    print('Vida inimigos: ')
+                    print(i, end=' ')
                 
-                # self.next_turn()
+                self.next_turn()
+        
+        self.battle.turn = 'Enemy'
